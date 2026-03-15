@@ -1,0 +1,26 @@
+{
+  "name": "@viyuni/monorepo",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "YanChenBai",
+  "scripts": {
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.34.0",
+    "oxlint": "^1.49.0",
+    "typescript": "~5.9.3"
+  },
+"workspaces": [
+    "services/*",
+    "packages/*",
+    "apps/*",
+    "scripts/*",
+    "docs/*"
+  ]
+}
