@@ -19,7 +19,7 @@ import Nav from './components/Nav.vue';
       </div>
     </div>
 
-    <FluidCursor :splatRadius="0.3" :backColor="{ r: 0.1, g: 0, b: 0 }" />
+    <FluidCursor :splatRadius="0.3" :backColor="{ r: 0.1, g: 0, b: 0 }" class="z-[-1] opacity-40" />
   </div>
 </template>
 
