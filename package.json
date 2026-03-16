@@ -5,22 +5,25 @@
   "keywords": [],
   "license": "ISC",
   "author": "YanChenBai",
+  "workspaces": [
+    "services/*",
+    "packages/*",
+    "apps/*",
+    "apps/games/*",
+    "apps/tools/*",
+    "scripts",
+    "docs/*"
+  ],
   "scripts": {
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "dev:web": "bun --filter './scripts' dev"
   },
   "devDependencies": {
     "oxfmt": "^0.34.0",
     "oxlint": "^1.49.0",
     "typescript": "~5.9.3"
-  },
-"workspaces": [
-    "services/*",
-    "packages/*",
-    "apps/*",
-    "scripts/*",
-    "docs/*"
-  ]
+  }
 }

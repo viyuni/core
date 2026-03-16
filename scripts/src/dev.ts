@@ -60,7 +60,7 @@ for (const server of sortServer) {
 }
 
 const port = 3000;
-http.createServer(rootApp).listen(port, () => {
+const rootServer = http.createServer(rootApp).listen(port, () => {
   console.log(theme.dim('────────────────────────────────────────────────────'));
 
   console.log(
@@ -72,4 +72,15 @@ http.createServer(rootApp).listen(port, () => {
   sortServer.forEach((s) => {
     console.log(chalk.gray(`  • http://localhost:${port}${s.config.base}`));
   });
+});
+
+process.on('SIGINT', async () => {
+  console.log(chalk.bold.blue('\nShutting down...'));
+
+  for (const server of devServers) {
+    await server.close();
+  }
+
+  await rootServer.close();
+  process.exit(0);
 });

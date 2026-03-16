@@ -1,6 +1,6 @@
-@import "@viyuni/ui/theme.css";
+@import '@viyuni/ui/theme.css';
 @source "../../../packages/ui";
 
 :root {
-  color-scheme: light
+  color-scheme: light;
 }
