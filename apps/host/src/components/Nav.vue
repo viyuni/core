@@ -31,12 +31,20 @@ const menus = [
   <nav
     class="container border-x border-b border-base-300 mx-auto py-5 px-5 flex justify-between items-center"
   >
-    <img
-      src="https://assets.viyuni.top/viyuni-light.svg"
-      width="120"
-      class="select-none"
-      draggable="false"
-    />
+    <picture>
+      <source
+        srcset="https://assets.viyuni.top/viyuni-light.svg"
+        media="(prefers-color-scheme: dark)"
+      />
+
+      <img
+        width="120"
+        class="select-none"
+        draggable="false"
+        src="https://assets.viyuni.top/viyuni-dark.svg"
+        alt="Viyuni logo"
+      />
+    </picture>
 
     <div class="flex items-center gap-2">
       <div class="hidden md:block">
