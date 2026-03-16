@@ -7,7 +7,8 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "dev": "bun ./src/dev.ts"
+    "dev": "bun ./src/dev.ts",
+    "build": "bun ./src/build.ts"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",

@@ -3,8 +3,9 @@ import path from 'node:path';
 
 import chalk from 'chalk';
 import connect from 'connect';
-import { glob } from 'tinyglobby';
 import { createServer, type ViteDevServer } from 'vite';
+
+import { findViteConfig } from './utils';
 
 const theme = {
   success: chalk.green.bold,
@@ -14,11 +15,7 @@ const theme = {
   highlight: chalk.magentaBright,
 };
 
-const viteConfigPaths = await glob('**/vite.config.*', {
-  cwd: path.join(process.cwd(), '../apps'),
-  absolute: true,
-  ignore: ['**/node_modules/**'],
-});
+const viteConfigPaths = await findViteConfig(path.join(process.cwd(), '../apps'));
 
 const rootApp = connect();
 
@@ -74,13 +71,22 @@ const rootServer = http.createServer(rootApp).listen(port, () => {
   });
 });
 
-process.on('SIGINT', async () => {
+async function closeAllServers() {
   console.log(chalk.bold.blue('\nShutting down...'));
+  for (const server of devServers) await server.close();
+  rootServer.close();
+}
 
-  for (const server of devServers) {
-    await server.close();
+process.stdin.on('keypress', async (str, key) => {
+  if (key.ctrl && key.name === 'c') {
+    await closeAllServers();
+    process.exit(0);
   }
+});
 
-  await rootServer.close();
+process.on('exit', async () => await closeAllServers());
+
+process.on('SIGINT', async () => {
+  await closeAllServers();
   process.exit(0);
 });

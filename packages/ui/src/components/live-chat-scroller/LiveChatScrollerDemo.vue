@@ -35,6 +35,7 @@
         <li>✅ 随机触发 Patch: 房管屏蔽 (修改文字和样式)</li>
       </ul>
       <button @click="clearMessages">清空屏幕</button>
+      <button @click="stop">Stop</button>
     </div>
   </div>
 </template>
@@ -126,7 +127,7 @@ onMounted(() => {
         return { likes: chatItem.likes + 1 }; // 只需要返回要修改的字段
       },
     );
-  }, 200); // 每 800ms 随机点个赞
+  }, 1000); // 每 800ms 随机点个赞
 
   // 4. 模拟房管违规屏蔽 (打补丁 - 长度变化测试引擎滑动是否平滑)
   const censorTimer = setInterval(() => {
@@ -149,6 +150,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   timers.forEach(clearInterval);
 });
+
+function stop() {
+  timers.forEach(clearInterval);
+}
 
 // 手动清屏
 const clearMessages = () => {

@@ -19,7 +19,8 @@
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "dev:web": "bun --filter './scripts' dev"
+    "dev:web": "bun --filter './scripts' dev",
+    "build:web": "bun --filter './scripts' build"
   },
   "devDependencies": {
     "oxfmt": "^0.34.0",

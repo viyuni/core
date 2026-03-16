@@ -1,6 +1,6 @@
 <template>
   <div class="size-full overflow-hidden flex flex-col justify-end">
-    <div ref="wrapperRef" class="w-full flex flex-col">
+    <div ref="wrapperRef" class="w-full flex flex-col will-change-transform">
       <div v-for="item in rendererList" :key="getItemKey(item)">
         <slot name="item" :data="item"></slot>
       </div>
@@ -119,13 +119,11 @@ const flushLoop = async () => {
   if (heightDiff > 0) {
     // 硬件加速执行高度补偿滑动
     const animation = wrapper.animate(
-      [
-        { transform: `translateY(${heightDiff}px)` }, // 瞬间下移隐藏新高度
-        { transform: 'translateY(0px)' }, // 平滑上推回原位
-      ],
+      [{ transform: `translate3d(0, ${heightDiff}px, 0)` }, { transform: 'translate3d(0, 0, 0)' }],
       {
         duration: dynamicDuration,
         easing: dynamicEasing,
+        fill: 'forwards',
       },
     );
 

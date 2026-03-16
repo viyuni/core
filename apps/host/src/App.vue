@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FluidCursor } from '@viyuni/ui';
+import { FluidCursor, LiveChatScrollerDemo } from '@viyuni/ui';
 import Nav from './components/Nav.vue';
 </script>
 
@@ -16,8 +16,6 @@ import Nav from './components/Nav.vue';
           height="38"
         />
         <h1 class="text-4xl font-bold">Coming soon</h1>
-
-        <Demo></Demo>
       </div>
     </div>
 
