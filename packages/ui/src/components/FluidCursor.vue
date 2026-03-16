@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // @ts-nocheck
 import type { HTMLAttributes } from 'vue';
-import { cn } from '@inspira-ui/plugins';
+import { cn } from '../lib/utils';
 import { onMounted, ref, watch } from 'vue';
 
 interface ColorRGB {
