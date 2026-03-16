@@ -1,5 +1,4 @@
-import type { DefineComponent } from '@/types';
-
+import type { DefineComponent } from '../../types';
 import LiveChatScroller from './LiveChatScroller.vue';
 export { default as LiveChatScrollerDemo } from './LiveChatScrollerDemo.vue';
 
