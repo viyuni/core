@@ -1,4 +1,5 @@
 import { PiniaColada } from '@pinia/colada';
+import { PiniaColadaAutoRefetch } from '@pinia/colada-plugin-auto-refetch';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
@@ -10,6 +11,12 @@ const app = createApp(App);
 
 app.use(createPinia());
 
-app.use(PiniaColada, {});
+app.use(PiniaColada, {
+  plugins: [
+    PiniaColadaAutoRefetch({
+      autoRefetch: 3000,
+    }),
+  ],
+});
 
 app.mount('#app');

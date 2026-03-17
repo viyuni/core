@@ -46,6 +46,7 @@ for (const server of sortServer) {
   const base = server.config.base;
 
   rootApp.use(base, (req, res, next) => {
+    req.url = req.originalUrl;
     server.middlewares(req, res, next);
   });
 
@@ -65,7 +66,7 @@ const rootServer = http.createServer(rootApp).listen(port, () => {
       `${chalk.cyan.bold(`http://localhost:${port}`)}`,
   );
 
-  console.log(chalk.gray('\n路由列表:'));
+  console.log(chalk.gray('\nRoutes:'));
   sortServer.forEach((s) => {
     console.log(chalk.gray(`  • http://localhost:${port}${s.config.base}`));
   });
@@ -78,26 +79,26 @@ async function closeAllServers() {
   isShuttingDown = true;
 
   console.log(theme.dim('\n────────────────────────────────────────────────────'));
-  console.log(chalk.bold.yellow('正在安全退出，请稍候...'));
+  console.log(chalk.bold.yellow('Shutting down safely, please wait...'));
 
-  // 设置一个强制退出的保险（3秒后如果还没关掉，强制自杀）
+  // Set a failsafe for forced exit (force kill if not closed after 3 seconds)
   const forceExitTimeout = setTimeout(() => {
-    console.log(chalk.red('\n部分服务响应超时，强制退出。'));
+    console.log(chalk.red('\nSome services timed out, forcing exit.'));
     process.exit(1);
   }, 3000);
 
   try {
-    // 先停止网关接收新连接
+    // Stop the gateway from accepting new connections first
     rootServer.close();
 
-    // 并发关闭所有 Vite 开发服务器（比 for 循环快得多）
+    // Concurrently close all Vite dev servers (much faster than a for loop)
     await Promise.all(devServers.map((s) => s.close()));
 
     clearTimeout(forceExitTimeout);
-    console.log(theme.success(' ✔ 所有服务已成功关闭。'));
+    console.log(theme.success(' ✔ All services successfully closed.'));
     process.exit(0);
   } catch (err) {
-    console.error(chalk.red('关闭过程中出现错误:'), err);
+    console.error(chalk.red('Error occurred during shutdown:'), err);
     process.exit(1);
   }
 }
@@ -106,7 +107,7 @@ if (process.stdin.isTTY) {
   process.stdin.setRawMode(true);
   process.stdin.resume();
   process.stdin.on('data', async (data) => {
-    // 检测 Ctrl+C (Hex: 03)
+    // Detect Ctrl+C (Hex: 03)
     if (data.toString() === '\u0003') {
       await closeAllServers();
     }
