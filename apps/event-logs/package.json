@@ -1,0 +1,58 @@
+{
+  "name": "@viyuni/events-logs",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.4.8",
+    "@json-render/core": "^0.14.0",
+    "@json-render/vue": "^0.14.0",
+    "@pinia/colada": "^1.0.0",
+    "@vueuse/core": "^14.2.1",
+    "lucide-vue-next": "^0.577.0",
+    "pinia": "^3.0.4",
+    "vue": "beta"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^24.11.0",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@viyuni/bili-danmaku": "workspace:*",
+    "@viyuni/ui": "workspace:*",
+    "@vue/tsconfig": "^0.8.1",
+    "daisyui": "^5.5.19",
+    "npm-run-all2": "^8.0.4",
+    "shiki": "^4.0.2",
+    "tailwindcss": "^4.2.1",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vite-plugin-vue-devtools": "^8.0.6",
+    "vue-tsc": "^3.2.5"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "overrides": {
+    "vue": "beta",
+    "@vue/compiler-core": "beta",
+    "@vue/compiler-dom": "beta",
+    "@vue/compiler-sfc": "beta",
+    "@vue/compiler-ssr": "beta",
+    "@vue/compiler-vapor": "beta",
+    "@vue/reactivity": "beta",
+    "@vue/runtime-core": "beta",
+    "@vue/runtime-dom": "beta",
+    "@vue/runtime-vapor": "beta",
+    "@vue/server-renderer": "beta",
+    "@vue/shared": "beta",
+    "@vue/compat": "beta"
+  }
+}

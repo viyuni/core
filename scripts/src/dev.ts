@@ -71,22 +71,48 @@ const rootServer = http.createServer(rootApp).listen(port, () => {
   });
 });
 
+let isShuttingDown = false;
+
 async function closeAllServers() {
-  console.log(chalk.bold.blue('\nShutting down...'));
-  for (const server of devServers) await server.close();
-  rootServer.close();
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+
+  console.log(theme.dim('\n────────────────────────────────────────────────────'));
+  console.log(chalk.bold.yellow('正在安全退出，请稍候...'));
+
+  // 设置一个强制退出的保险（3秒后如果还没关掉，强制自杀）
+  const forceExitTimeout = setTimeout(() => {
+    console.log(chalk.red('\n部分服务响应超时，强制退出。'));
+    process.exit(1);
+  }, 3000);
+
+  try {
+    // 先停止网关接收新连接
+    rootServer.close();
+
+    // 并发关闭所有 Vite 开发服务器（比 for 循环快得多）
+    await Promise.all(devServers.map((s) => s.close()));
+
+    clearTimeout(forceExitTimeout);
+    console.log(theme.success(' ✔ 所有服务已成功关闭。'));
+    process.exit(0);
+  } catch (err) {
+    console.error(chalk.red('关闭过程中出现错误:'), err);
+    process.exit(1);
+  }
 }
 
-process.stdin.on('keypress', async (str, key) => {
-  if (key.ctrl && key.name === 'c') {
-    await closeAllServers();
-    process.exit(0);
-  }
-});
+if (process.stdin.isTTY) {
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
+  process.stdin.on('data', async (data) => {
+    // 检测 Ctrl+C (Hex: 03)
+    if (data.toString() === '\u0003') {
+      await closeAllServers();
+    }
+  });
+}
 
-process.on('exit', async () => await closeAllServers());
-
-process.on('SIGINT', async () => {
+process.on('SIGTERM', async () => {
   await closeAllServers();
-  process.exit(0);
 });

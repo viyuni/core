@@ -38,6 +38,8 @@
   --border: 1px;
   --depth: 1;
   --noise: 0;
+  --selection-background: rgba(226, 88, 141, 0.8);
+  --selection-color: oklch(100% 0 0);
 }
 
 @plugin "daisyui/theme" {
@@ -74,8 +76,38 @@
   --border: 1px;
   --depth: 1;
   --noise: 0;
+  --selection-background: rgba(226, 88, 141, 0.6);
+  --selection-color: oklch(90% 0 0);
 }
 
 html {
   background: var(--root-bg);
+}
+
+:root {
+  color-scheme: light;
+  /* 默认 */
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  ::selection {
+    background-color: var(--selection-background);
+    color: var(--selection-color);
+  }
+
+  /* 兼容火狐浏览器 */
+  ::-moz-selection {
+    background-color: var(--selection-background);
+    color: var(--selection-color);
+  }
 }
