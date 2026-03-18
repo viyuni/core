@@ -21,6 +21,7 @@
     "lint:fix": "oxlint --fix",
     "dev:web": "bun --filter @viyuni/scripts dev",
     "dev:blive-ws": "bun --filter @viyuni/blive-ws dev",
+    "dev:event-logs": "bun --filter @viyuni/event-logs dev",
     "build:web": "bun --filter @viyuni/scripts build"
   },
   "devDependencies": {
