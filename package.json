@@ -19,12 +19,20 @@
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "dev:web": "bun --filter './scripts' dev",
-    "build:web": "bun --filter './scripts' build"
+    "dev:web": "bun --filter @viyuni/scripts dev",
+    "dev:blive-ws": "bun --filter @viyuni/blive-ws dev",
+    "build:web": "bun --filter @viyuni/scripts build"
   },
   "devDependencies": {
+    "lint-staged": "^16.4.0",
     "oxfmt": "^0.34.0",
     "oxlint": "^1.49.0",
     "typescript": "~5.9.3"
+  },
+  "lint-staged": {
+    "*": [
+      "bun run fmt",
+      "bun run lint:fix"
+    ]
   }
 }

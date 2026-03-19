@@ -1,6 +1,6 @@
 import { treaty } from '@elysiajs/eden';
 import { useQuery } from '@pinia/colada';
-import type { App } from '@viyuni/bili-danmaku/types';
+import type { App } from '@viyuni/blive-ws/types';
 import { computed, ref } from 'vue';
 
 import { useAuth } from './useAuth';

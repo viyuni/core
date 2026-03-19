@@ -1,6 +1,6 @@
 {
-  "id": "fe2a0152-3421-469e-977b-6a74498edd49",
-  "prevId": "09e8b1b4-779b-4964-af6e-7f2f7731a2ab",
+  "id": "09e8b1b4-779b-4964-af6e-7f2f7731a2ab",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -45,7 +45,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp (3) with time zone",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
           "default": "now()"

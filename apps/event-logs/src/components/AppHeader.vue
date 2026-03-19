@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import Logo from './Logo.vue'
-import FilterControls from './FilterControls.vue'
-import PaginationControl from './PaginationControl.vue'
-import { RefreshCw, Settings } from 'lucide-vue-next'
+import Logo from './Logo.vue';
+import FilterControls from './FilterControls.vue';
+import PaginationControl from './PaginationControl.vue';
+import { RefreshCw, Settings } from 'lucide-vue-next';
 
 defineProps<{
-  range: [number, number]
-  total: number
-  isLoading: boolean
-  cmd?: string | null
-  limit: number
-  offset: number
-}>()
+  range: [number, number];
+  total: number;
+  isLoading: boolean;
+  cmd?: string | null;
+  limit: number;
+  offset: number;
+}>();
 
 defineEmits<{
-  refetch: []
-  prevPage: []
-  nextPage: []
-  setting: []
-  'update:cmd': [value: string]
-  'update:limit': [value: number]
-  'update:offset': [value: number]
-}>()
+  refetch: [];
+  prevPage: [];
+  nextPage: [];
+  setting: [];
+  'update:cmd': [value: string];
+  'update:limit': [value: number];
+  'update:offset': [value: number];
+}>();
 </script>
 
 <template>
@@ -29,11 +29,18 @@ defineEmits<{
     <Logo width="30" />
 
     <div class="flex gap-2">
-      <FilterControls :cmd="cmd" @update:cmd="$emit('update:cmd', $event)" />
+      <FilterControls
+        v-bind="$props"
+        @update:cmd="$emit('update:cmd', $event)"
+        @update:limit="$emit('update:limit', $event)"
+        @update:offset="$emit('update:offset', $event)"
+      />
 
-      <PaginationControl :range="range" :total="total" :limit :offset @prev-page="$emit('prevPage')"
-        @next-page="$emit('nextPage')" @update:offset="$emit('update:offset', $event)"
-        @update:limit="$emit('update:limit', $event)" />
+      <PaginationControl
+        v-bind="$props"
+        @prev-page="$emit('prevPage')"
+        @next-page="$emit('nextPage')"
+      />
 
       <button class="btn btn-sm btn-square" :disabled="isLoading" @click="$emit('refetch')">
         <RefreshCw :size="16" />

@@ -1,8 +1,8 @@
 import { cors } from '@elysiajs/cors';
 import { type } from 'arktype';
 import { KeepLiveTCP } from 'bilibili-live-ws';
-import { count, desc, like } from 'drizzle-orm';
-import { Elysia, t } from 'elysia';
+import { and, count, desc, like, lte } from 'drizzle-orm';
+import { Elysia } from 'elysia';
 
 import { createAuthClient } from './auth';
 import { getDanmuInfo } from './bili-api';
@@ -54,7 +54,15 @@ export const app = new Elysia()
     async ({ query }) => {
       const { limit = 50, offset = 0, cmd, createdAt } = query;
 
-      const [result] = await db.select({ value: count() }).from(schema.events);
+      const [result] = await db
+        .select({ value: count() })
+        .from(schema.events)
+        .where(
+          and(
+            cmd ? like(schema.events.cmd, `%${cmd}%`) : undefined,
+            createdAt ? lte(schema.events.createdAt, new Date(createdAt)) : undefined,
+          ),
+        );
 
       const data = await db.query.events.findMany({
         where: (events, { like, and, lte }) =>

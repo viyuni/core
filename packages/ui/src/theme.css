@@ -89,12 +89,12 @@ html {
   /* 默认 */
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme='light']) {
     color-scheme: dark;
   }
 }
