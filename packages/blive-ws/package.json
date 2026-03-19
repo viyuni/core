@@ -2,7 +2,8 @@
   "name": "@viyuni/blive-ws",
   "type": "module",
   "exports": {
-    "./types": "./src/types/export-type.ts"
+    "./types": "./src/types/export-type.ts",
+    "./parsers": "./src/parsers/index.ts"
   },
   "scripts": {
     "dev": "bun ./src/index.ts",
@@ -11,13 +12,16 @@
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
     "@viyuni/cookie-sync-client": "^0.0.3",
+    "@viyuni/event-types": "workspace:*",
+    "arkenv": "^0.11.0",
     "arktype": "^2.2.0",
     "bilibili-live-ws": "^6.3.1",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "elysia": "^1.4.28",
     "ky": "^1.14.3",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "volta-json-ptr": "0.0.1-beta.2"
   },
   "devDependencies": {
     "@types/bun": "^1.3.10",

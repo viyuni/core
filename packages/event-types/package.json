@@ -1,0 +1,19 @@
+{
+  "name": "@viyuni/event-types",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {},
+  "dependencies": {
+    "arktype": "^2.2.0",
+    "blive-message-listener": "^0.5.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

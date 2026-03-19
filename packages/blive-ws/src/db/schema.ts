@@ -7,6 +7,7 @@ export const events = pgTable(
     cmd: t.text().notNull(),
     roomId: t.text('room_id').notNull(),
     data: t.jsonb(),
+    parsed: t.jsonb(),
     createdAt: t
       .timestamp('created_at', {
         precision: 3,

@@ -6,8 +6,7 @@ import { JsonEditor, type JsonValue } from '@visual-json/vue';
 
 const props = defineProps<{
   isOpen: boolean;
-  rawData: JsonValue;
-  parsedData?: JsonValue;
+  data: any;
 }>();
 
 const emit = defineEmits<{
@@ -27,14 +26,14 @@ function copyObject(obj: unknown) {
       <div class="flex items-center justify-between">
         <h3 class="font-bold text-lg">JSON Detail</h3>
         <div>
-          <button class="btn btn-sm btn-circle btn-ghost" @click="copyObject(rawData ?? '')">
+          <button class="btn btn-sm btn-circle btn-ghost" @click="copyObject(data ?? '')">
             <Copy :size="16"></Copy>
           </button>
           <button class="btn btn-sm btn-circle btn-ghost" @click="emit('close')">✕</button>
         </div>
       </div>
       <JsonEditor
-        :value="rawData"
+        :value="data"
         :readOnly="true"
         :tree-show-values="true"
         :tree-show-counts="true"

@@ -57,7 +57,7 @@ for (const server of sortServer) {
   );
 }
 
-const port = 3000;
+const port = process.env?.SERVER_PORT ?? 3690;
 const rootServer = http.createServer(rootApp).listen(port, () => {
   console.log(theme.dim('────────────────────────────────────────────────────'));
 

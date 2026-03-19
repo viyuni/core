@@ -15,6 +15,13 @@
       "when": 1773727831194,
       "tag": "0001_curious_blindfold",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773929956246,
+      "tag": "0002_fearless_patch",
+      "breakpoints": true
     }
   ]
 }

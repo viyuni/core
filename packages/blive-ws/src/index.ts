@@ -1,51 +1,14 @@
 import { cors } from '@elysiajs/cors';
 import { type } from 'arktype';
 import { KeepLiveTCP } from 'bilibili-live-ws';
-import { and, count, desc, like, lte } from 'drizzle-orm';
+import { and, count, like, lte } from 'drizzle-orm';
 import { Elysia } from 'elysia';
 
 import { createAuthClient } from './auth';
 import { getDanmuInfo } from './bili-api';
-import { loadConfig } from './config';
+import { env } from './config/env';
 import { db, schema } from './db';
-
-const config = loadConfig();
-
-const { cookie, buvid, userInfo } = await createAuthClient(config);
-
-const instance = new Map<number, KeepLiveTCP>();
-let messageCount = 0;
-
-for (const roomId of config.roomIds) {
-  const { randomServer, token } = await getDanmuInfo(roomId, cookie);
-
-  const ws = new KeepLiveTCP(roomId, {
-    host: randomServer?.host,
-    port: randomServer?.port,
-    key: token,
-    uid: userInfo.mid,
-    buvid: buvid ?? '',
-  });
-
-  ws.addListener('msg', async (msg) => {
-    console.log(`Received message total: ${++messageCount}`);
-    await db.insert(schema.events).values({
-      cmd: msg.cmd,
-      roomId: String(roomId),
-      data: msg,
-    });
-  });
-
-  ws.addListener('close', () => {
-    console.log('close');
-  });
-
-  ws.addListener('error', (err) => {
-    console.error(err);
-  });
-
-  instance.set(roomId, ws);
-}
+import { parsers } from './parsers';
 
 export const app = new Elysia()
   .use(cors())
@@ -91,9 +54,77 @@ export const app = new Elysia()
       }),
     },
   )
+  .ws('/ws', {
+    query: type({
+      accessToken: 'string?',
+    }),
+    beforeHandle({ set, query }) {
+      if (!env.ACCESS_TOKEN) return;
+
+      const token = query.accessToken;
+      if (!token || token !== env.ACCESS_TOKEN) {
+        set.status = 401;
+        return 'Unauthorized';
+      }
+    },
+    open(ws) {
+      ws.send({ message: 'Connected to Viyuni event server.' });
+      ws.subscribe('msg');
+    },
+    message(ws, message) {
+      ws.send(message);
+    },
+  })
   .listen(6300, (server) => {
     console.log(`🦊 Elysia is running at ${server?.hostname}:${server?.port}`);
   });
+
+const { cookie, buvid, userInfo } = await createAuthClient(env);
+
+const instance = new Map<number, KeepLiveTCP>();
+
+for (const roomId of env.ROOMS) {
+  const { randomServer, token } = await getDanmuInfo(roomId, cookie);
+
+  const ws = new KeepLiveTCP(roomId, {
+    host: randomServer?.host,
+    port: randomServer?.port,
+    key: token,
+    uid: userInfo.mid,
+    buvid: buvid ?? '',
+  });
+
+  ws.addListener('msg', async (msg) => {
+    const cmd = msg?.cmd as string | undefined;
+
+    if (!cmd) return;
+
+    console.log(cmd);
+
+    const parser = parsers.find((parser) => parser.cmd === cmd)?.parser;
+
+    const parsed = (parser as any)?.(cmd, msg, roomId, userInfo.mid);
+
+    await db.insert(schema.events).values({
+      cmd: msg.cmd,
+      roomId: String(roomId),
+      data: msg,
+      parsed,
+    });
+
+    if (parsed) app.server?.publish('msg', JSON.stringify(parsed));
+  });
+
+  ws.addListener('close', () => {
+    console.log('close');
+  });
+
+  ws.addListener('error', (err) => {
+    console.error(err);
+  });
+
+  instance.set(roomId, ws);
+}
 
 function stopAll() {
   for (const ws of instance.values()) {
