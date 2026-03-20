@@ -1,7 +1,8 @@
-import type { Cmd } from './common';
+import type { Cmd, ViyuniEventType } from './common';
 
 export interface Guard {
-  cmd: typeof Cmd.USER_TOAST_MSG_V2;
+  cmd: Cmd.USER_TOAST_MSG_V2;
+  type: ViyuniEventType.Guard;
   id: string;
   /**
    * 稳定 key，用于避免重复事件
@@ -75,5 +76,9 @@ export interface Guard {
   timestamp: number;
   timestampNormalized: number;
   eventListenerUid: number;
+
+  /** 直播间 ID */
+  roomId: number;
+
   read: boolean;
 }

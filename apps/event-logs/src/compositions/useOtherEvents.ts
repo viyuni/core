@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 
 import { useApi } from './useApi';
 
-export function useEvents() {
+export function useOtherEvents() {
   const { api } = useApi();
 
   const limit = ref(50);
@@ -20,9 +20,9 @@ export function useEvents() {
   );
 
   const { data, isLoading, refetch } = useQuery({
-    key: () => ['events', limit.value, offset.value, cmdFilter.value],
+    key: () => ['other-events', limit.value, offset.value, cmdFilter.value],
     async query() {
-      return api.value.events
+      return api.value['other-events']
         .get({
           query: {
             limit: limit.value,

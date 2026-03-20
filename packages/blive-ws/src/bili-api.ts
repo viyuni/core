@@ -1,8 +1,8 @@
 import ky from 'ky';
 
-import type { FetchBiliNavResp, FetchDanmuConfResp } from './types/bili-api';
+import type { FetchBiliNavResp, FetchDanmuConfResp } from './types';
 
-export async function getDanmuInfo(roomId: number, cookie: string | null) {
+export async function fetchDanmuInfo(roomId: number, cookie?: string | null) {
   const res = await ky
     .get<FetchDanmuConfResp>(
       `https://api.live.bilibili.com/room/v1/Danmu/getConf?room_id=${roomId}`,
@@ -33,6 +33,7 @@ export async function fetchNavInfo(cookie: string | null) {
   }).json();
 
   if (res.code === 0) return res.data;
+  if (res.code === -101) return { mid: 0 };
 
   throw new Error(res.message);
 }

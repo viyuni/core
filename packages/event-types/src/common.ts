@@ -37,6 +37,12 @@ export enum GuardType {
   Jianzhang = 3,
 }
 
+export enum ViyuniEventType {
+  Message = 'message',
+  Guard = 'guard',
+  Gift = 'gift',
+}
+
 export enum Cmd {
   DANMU_MSG = 'DANMU_MSG',
   SEND_GIFT = 'SEND_GIFT',
@@ -127,4 +133,5 @@ export enum Cmd {
   RANK_REM = 'RANK_REM',
   DANMU_TAG_CHANGE = 'DANMU_TAG_CHANGE',
   USER_TOAST_MSG_V2 = 'USER_TOAST_MSG_V2',
+  ONLINE_RANK_V3 = 'ONLINE_RANK_V3',
 }

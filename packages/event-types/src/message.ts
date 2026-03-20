@@ -1,4 +1,4 @@
-import { Cmd } from './common';
+import { Cmd, ViyuniEventType } from './common';
 import { GuardType, type FansMedal } from './common';
 
 export interface EmoticonMessage {
@@ -30,7 +30,9 @@ export interface Reply {
 }
 
 export interface Message {
-  cmd: typeof Cmd.DANMU_MSG;
+  cmd: Cmd.DANMU_MSG;
+
+  type: ViyuniEventType.Message;
 
   /** 消息id */
   id: string;

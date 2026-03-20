@@ -2,7 +2,7 @@
 import { useDebounceFn } from '@vueuse/core';
 
 defineProps<{
-  range: [number, number];
+  range: readonly [number, number];
   total: number;
   limit?: number;
   offset?: number;

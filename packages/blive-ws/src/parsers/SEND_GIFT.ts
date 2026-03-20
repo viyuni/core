@@ -1,11 +1,18 @@
-import { BlindGift, Cmd, GuardType, type FansMedal, type Gift } from '@viyuni/event-types';
+import {
+  BlindGift,
+  Cmd,
+  GuardType,
+  ViyuniEventType,
+  type FansMedal,
+  type Gift,
+} from '@viyuni/event-types';
 
 import { defineEventParser } from './parser';
 import durationByPrice from './utils';
 
 export const SEND_GIFT_PARSER = defineEventParser({
   cmd: Cmd.SEND_GIFT,
-  parser(cmd: Cmd.SEND_GIFT, { data }: SEND_GIFT, roomId, eventListenerUid) {
+  parser(cmd: Cmd.SEND_GIFT, { data }: SEND_GIFT, roomId, eventListenerUid): Gift {
     const {
       sender_uinfo,
       uid,
@@ -73,6 +80,7 @@ export const SEND_GIFT_PARSER = defineEventParser({
     return {
       id: `${cmd}:${roomId}:${uid}:${timestamp}:${giftId}:${comboTotalCoin / 1000}`,
       cmd,
+      type: ViyuniEventType.Gift,
       uid: finalUid,
       uname: finalUname,
       face: finalFace,

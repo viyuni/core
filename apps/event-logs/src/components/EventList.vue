@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { Event } from '@viyuni/blive-ws/types';
+import type { Event } from '@viyuni/blive-relay/types';
 import JsonModal from './JsonModal.vue';
+import { formatJsonPreview } from '@/lib/utils';
 
 defineProps<{
   events: Event[];
@@ -21,23 +22,36 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="overflow-y-auto">
-    <div
-      v-for="event in events"
-      :key="event.id"
-      class="grid grid-cols-[100px_200px_100px_200px_1fr_1fr] gap-4border-b border-base-200 last:border-b-0 cursor-pointer hover:bg-base-200/50 transition-colors"
-    >
-      <div class="px-5 py-4">{{ event.id }}</div>
-      <div class="px-5 py-4 truncate" :title="event.cmd">{{ event.cmd }}</div>
-      <div class="px-5 py-4">{{ event.roomId }}</div>
-      <div class="px-5 py-4">{{ event.createdAt?.toLocaleString() }}</div>
-      <div class="px-5 py-4 truncate text-xs" @click="openModal(event.data)">
-        {{ event.data }}
-      </div>
-      <div class="px-5 py-4 truncate text-xs" @click="openModal(event.parsed)">
-        {{ event.parsed }}
-      </div>
-    </div>
+  <div class="overflow-x-auto w-full">
+    <table class="table table-zebra table-sm w-full table-pin-rows">
+      <thead>
+        <tr class="text-xs">
+          <th class="w-24">ID</th>
+          <th class="w-48">CMD</th>
+          <th class="w-24">Room ID</th>
+          <th class="w-48">Time</th>
+          <th>Parsed Data</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="event in events" :key="event.id" class="hover">
+          <td class="font-mono text-xs">{{ event.id }}</td>
+          <td class="max-w-48 truncate" :title="event.cmd">
+            <div class="badge badge-ghost badge-sm">{{ event.cmd }}</div>
+          </td>
+          <td class="font-mono text-xs">{{ event.roomId }}</td>
+          <td class="text-xs text-base-content/70">
+            {{ event.createdAt?.toLocaleString() }}
+          </td>
+          <td class="max-w-xs" @click="openModal(event.data)" title="点击查看完整 JSON">
+            <div class="truncate text-xs font-mono text-base-content/50">
+              {{ formatJsonPreview(event.data) }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <JsonModal :is-open="isModalOpen" :data="selectedEvent" @close="closeModal" />
   </div>

@@ -1,156 +1,129 @@
-import { cors } from '@elysiajs/cors';
-import { type } from 'arktype';
+import { EventEmitter } from 'events';
+
+import { Cmd, type ViyuniEvent } from '@viyuni/event-types';
 import { KeepLiveTCP } from 'bilibili-live-ws';
-import { and, count, like, lte } from 'drizzle-orm';
-import { Elysia } from 'elysia';
+import { parseCookie } from 'cookie';
 
-import { createAuthClient } from './auth';
-import { getDanmuInfo } from './bili-api';
-import { env } from './config/env';
-import { db, schema } from './db';
+import { fetchDanmuInfo, fetchNavInfo } from './bili-api';
 import { parsers } from './parsers';
+export * from './parsers';
 
-export const app = new Elysia()
-  .use(cors())
-  .get(
-    '/events',
-    async ({ query }) => {
-      const { limit = 50, offset = 0, cmd, createdAt } = query;
+type ListenerEvents = {
+  unknownEvent: (event: Record<string, unknown> | unknown[]) => void;
+  unimplementedEvent: (cmd: Cmd, raw: Record<string, unknown>) => void;
+  event: (event: ViyuniEvent) => void;
+};
 
-      const [result] = await db
-        .select({ value: count() })
-        .from(schema.events)
-        .where(
-          and(
-            cmd ? like(schema.events.cmd, `%${cmd}%`) : undefined,
-            createdAt ? lte(schema.events.createdAt, new Date(createdAt)) : undefined,
-          ),
-        );
+export interface ListenerConfig {
+  roomId: number;
+  cookie: string;
+}
 
-      const data = await db.query.events.findMany({
-        where: (events, { like, and, lte }) =>
-          and(
-            cmd ? like(events.cmd, `%${cmd}%`) : undefined,
-            createdAt ? lte(events.createdAt, new Date(createdAt)) : undefined,
-          ),
-        limit,
-        offset,
-        orderBy: (events, { desc }) => [desc(events.createdAt)],
-      });
+class BliveListener {
+  private ws: KeepLiveTCP | null = null;
+  private roomId: number;
+  private emitter = new EventEmitter();
+  private cookie = '';
+  private buvid = '';
+  private uid = 0;
 
-      return {
-        total: result?.value ?? 0,
-        limit,
-        offset,
-        data,
-      };
-    },
-    {
-      query: type({
-        limit: 'string.numeric.parse?',
-        offset: 'string.numeric.parse?',
-        cmd: 'null | string?',
-        createdAt: 'null | number?',
-      }),
-    },
-  )
-  .ws('/ws', {
-    query: type({
-      accessToken: 'string?',
-    }),
-    beforeHandle({ set, query }) {
-      if (!env.ACCESS_TOKEN) return;
+  constructor(config: ListenerConfig) {
+    this.roomId = config.roomId;
+    this.cookie = config.cookie;
+    this.buvid = this.extractBuvid(config.cookie);
+  }
 
-      const token = query.accessToken;
-      if (!token || token !== env.ACCESS_TOKEN) {
-        set.status = 401;
-        return 'Unauthorized';
-      }
-    },
-    open(ws) {
-      ws.send({ message: 'Connected to Viyuni event server.' });
-      ws.subscribe('msg');
-    },
-    message(ws, message) {
-      ws.send(message);
-    },
-  })
-  .listen(6300, (server) => {
-    console.log(`🦊 Elysia is running at ${server?.hostname}:${server?.port}`);
-  });
+  private extractBuvid(cookie: string): string {
+    const cookies = parseCookie(cookie);
+    return cookies.buvid3 ?? '';
+  }
 
-const { cookie, buvid, userInfo } = await createAuthClient(env);
+  updateCookie(newCookie: string) {
+    this.cookie = newCookie;
+    this.buvid = this.extractBuvid(newCookie);
+  }
 
-const instance = new Map<number, KeepLiveTCP>();
+  async updateCookieAndRestart(newCookie: string) {
+    if (newCookie === this.cookie) {
+      return;
+    }
 
-for (const roomId of env.ROOMS) {
-  const { randomServer, token } = await getDanmuInfo(roomId, cookie);
+    this.updateCookie(newCookie);
+    await this.start();
+  }
 
-  const ws = new KeepLiveTCP(roomId, {
-    host: randomServer?.host,
-    port: randomServer?.port,
-    key: token,
-    uid: userInfo.mid,
-    buvid: buvid ?? '',
-  });
+  async start() {
+    if (this.ws) this.stop();
 
-  ws.addListener('msg', async (msg) => {
-    const cmd = msg?.cmd as string | undefined;
+    const [{ mid = 0 }, { randomServer, token }] = await Promise.all([
+      fetchNavInfo(this.cookie),
+      fetchDanmuInfo(this.roomId, this.cookie),
+    ]);
+
+    this.uid = mid;
+    if (mid === 0) console.warn('Viyuni Sync account not logged in.');
+
+    this.ws = new KeepLiveTCP(this.roomId, {
+      host: randomServer?.host,
+      port: randomServer?.port,
+      key: token,
+      uid: this.uid ?? 0,
+      buvid: this.buvid ?? '',
+    });
+
+    this.ws.addListener('msg', (msg) => this.handleMsg(msg));
+    this.ws.addListener('close', () => console.log(`${this.roomId} 连接已关闭...`));
+    this.ws.addListener('error', (err) => console.error('连接错误:', err));
+  }
+
+  /** 停止监听 */
+  stop() {
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
+    }
+  }
+
+  /** 获取当前房间号 */
+  getRoomId() {
+    return this.roomId;
+  }
+
+  /** 事件监听 */
+  on<E extends keyof ListenerEvents>(event: E, callback: ListenerEvents[E]) {
+    this.emitter.on(event, callback);
+    return () => this.emitter.off(event, callback);
+  }
+
+  private handleMsg(msg: any) {
+    const cmd = msg?.cmd as Cmd | undefined;
 
     if (!cmd) return;
 
-    console.log(cmd);
+    const isKnownCmd = Object.values(Cmd).includes(cmd);
+
+    if (!isKnownCmd) {
+      this.emitter.emit('unknownEvent', msg);
+      return;
+    }
 
     const parser = parsers.find((parser) => parser.cmd === cmd)?.parser;
 
-    const parsed = (parser as any)?.(cmd, msg, roomId, userInfo.mid);
-
-    await db.insert(schema.events).values({
-      cmd: msg.cmd,
-      roomId: String(roomId),
-      data: msg,
-      parsed,
-    });
-
-    if (parsed) app.server?.publish('msg', JSON.stringify(parsed));
-  });
-
-  ws.addListener('close', () => {
-    console.log('close');
-  });
-
-  ws.addListener('error', (err) => {
-    console.error(err);
-  });
-
-  instance.set(roomId, ws);
-}
-
-function stopAll() {
-  for (const ws of instance.values()) {
-    ws.removeAllListeners();
-    ws.close();
-  }
-
-  instance.clear();
-  process.exit(1);
-}
-
-process.on('SIGINT', () => {
-  stopAll();
-});
-
-if (process.stdin.isTTY) {
-  process.stdin.setRawMode(true);
-  process.stdin.resume();
-  process.stdin.on('data', (data) => {
-    // 检测 Ctrl+C (Hex: 03)
-    if (data.toString() === '\u0003') {
-      stopAll();
+    if (!parser) {
+      this.emitter.emit('unimplementedEvent', cmd, msg as Record<string, unknown>);
+      return;
     }
-  });
+
+    const parsed = parser(cmd, msg, this.roomId!, this.uid ?? 0);
+
+    if (parsed) {
+      this.emitter.emit('event', parsed);
+    }
+  }
 }
 
-process.on('SIGTERM', () => {
-  stopAll();
-});
+export function createListener(config: ListenerConfig) {
+  return new BliveListener(config);
+}
+
+export { BliveListener };

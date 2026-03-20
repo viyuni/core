@@ -5,14 +5,14 @@ import type {
   Message,
   Reply,
 } from '@viyuni/event-types';
-import { Cmd, type GuardType } from '@viyuni/event-types';
+import { Cmd, ViyuniEventType, type GuardType } from '@viyuni/event-types';
 import { peek } from 'volta-json-ptr';
 
 import { defineEventParser } from './parser';
 
 export const DANMU_MSG_PARSER = defineEventParser({
   cmd: Cmd.DANMU_MSG,
-  parser(cmd: Cmd.DANMU_MSG, data: DANMU_MSG, roomId, eventListenerUid) {
+  parser(cmd: Cmd.DANMU_MSG, data: DANMU_MSG, roomId, eventListenerUid): Message {
     const info = data.info;
 
     const timestamp = peek(info, '/0/4');
@@ -86,6 +86,7 @@ export const DANMU_MSG_PARSER = defineEventParser({
     return {
       id: `${cmd}:${roomId}:${uid}:${timestamp}`,
       cmd,
+      type: ViyuniEventType.Message,
       roomId,
       uid,
       uname,

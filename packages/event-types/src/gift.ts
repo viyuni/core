@@ -1,10 +1,11 @@
 import { type } from 'arktype';
 
-import type { FansMedal } from './common';
+import type { FansMedal, ViyuniEventType } from './common';
 import { Cmd, GuardType } from './common';
 
 export interface Gift {
-  cmd: typeof Cmd.SEND_GIFT;
+  cmd: Cmd.SEND_GIFT;
+  type: ViyuniEventType.Gift;
   id: string;
   uid: number;
   uname: string;
