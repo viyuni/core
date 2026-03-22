@@ -1,5 +1,4 @@
-import { Cmd, ViyuniEventType } from './common';
-import { GuardType, type FansMedal } from './common';
+import type { FansMedal, GuardType, ViyuniEventType, Cmd } from './common';
 
 export interface EmoticonMessage {
   bulgeDisplay: number;
@@ -30,9 +29,9 @@ export interface Reply {
 }
 
 export interface Message {
-  cmd: Cmd.DANMU_MSG;
+  cmd: typeof Cmd.DANMU_MSG;
 
-  type: ViyuniEventType.Message;
+  type: typeof ViyuniEventType.Message;
 
   /** 消息id */
   id: string;

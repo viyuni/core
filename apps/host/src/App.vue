@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { FluidCursor, LiveChatScrollerDemo } from '@viyuni/ui';
+
 import Nav from './components/Nav.vue';
 </script>
 

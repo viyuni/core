@@ -12,7 +12,7 @@ import { defineEventParser } from './parser';
 
 export const DANMU_MSG_PARSER = defineEventParser({
   cmd: Cmd.DANMU_MSG,
-  parser(cmd: Cmd.DANMU_MSG, data: DANMU_MSG, roomId, eventListenerUid): Message {
+  parser(cmd: typeof Cmd.DANMU_MSG, data: DANMU_MSG, roomId, eventListenerUid): Message {
     const info = data.info;
 
     const timestamp = peek(info, '/0/4');
@@ -23,7 +23,7 @@ export const DANMU_MSG_PARSER = defineEventParser({
     const sendType = peek(info, '/0/9');
     const uid = peek(info, '/2/0');
     const uname = peek(info, '/2/1');
-    const face = peek(info, '/info/0/15/user/base/face') ?? user?.base.face ?? '';
+    const face = peek(info, '/info/0/15/user/base/face') ?? user?.base?.face ?? '';
     const nameColor = peek(info, '/2/7');
     const wealthMedalLvl = peek(info, '/16/0');
     const phoneVerified = peek(info, '/2/6');
@@ -80,13 +80,14 @@ export const DANMU_MSG_PARSER = defineEventParser({
           type: user?.medal?.typ ?? 0,
           isLighted: user?.medal?.is_light ?? 0,
           roomId: medalRoomId ?? 0,
+          guardType: user.guard?.level ?? 0,
         } satisfies FansMedal)
       : null;
 
     return {
       id: `${cmd}:${roomId}:${uid}:${timestamp}`,
-      cmd,
       type: ViyuniEventType.Message,
+      cmd,
       roomId,
       uid,
       uname,
@@ -111,7 +112,7 @@ export const DANMU_MSG_PARSER = defineEventParser({
 });
 
 export interface DANMU_MSG {
-  cmd: Cmd.DANMU_MSG;
+  cmd: typeof Cmd.DANMU_MSG;
   info: [
     [
       number, // [0][0]: unknown
@@ -478,7 +479,7 @@ export interface UserInfo {
      * 2: 提督
      * 3: 舰长
      */
-    level: number;
+    level: GuardType;
   };
   /**
    * 在某些特殊事件中会返回对应的头像框，目前已知返回：

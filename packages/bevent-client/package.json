@@ -1,0 +1,25 @@
+{
+  "name": "@viyuni/bevent-client",
+  "type": "module",
+  "module": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./vue": "./src/vue.ts"
+  },
+  "scripts": {
+    "dev": "bun ./src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.4.8",
+    "@viyuni/bevent-relay": "workspace:*",
+    "@viyuni/event-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsdown": "^0.21.4",
+    "vue": "^3.5.30"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

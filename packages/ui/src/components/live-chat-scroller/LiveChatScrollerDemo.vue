@@ -41,7 +41,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, useTemplateRef } from 'vue';
+import { onMounted, onBeforeUnmount, useTemplateRef } from 'vue';
+
 import { createLiveChatScroller } from './index';
 
 // ================= 类型定义 =================
@@ -62,16 +63,21 @@ interface GiftMessage extends BaseMessage {
   count: number;
 }
 
+
 type StreamMessage = ChatMessage | GiftMessage;
 
+
 const LiveChatScroller = createLiveChatScroller<StreamMessage>();
+
 
 // ================= 组件与状态 =================
 const messageLayerRef = useTemplateRef('messageLayerRef');
 
+
 // 用来保存最近发出的消息 ID，方便我们后续模拟随机打补丁
 const recentChatIds: string[] = [];
 const timers: ReturnType<typeof setInterval>[] = [];
+
 
 // ================= 模拟推流与打补丁 =================
 onMounted(() => {
@@ -98,7 +104,7 @@ onMounted(() => {
       likes: 0,
       isCensored: false,
     });
-  }, 1000 / 30);
+  }, 1000);
 
   // 2. 模拟土豪狂刷礼物 (推流)
   const giftTimer = setInterval(() => {
@@ -118,15 +124,13 @@ onMounted(() => {
   const likeTimer = setInterval(() => {
     if (recentChatIds.length === 0) return;
     // 随机挑一个幸运观众点赞
-    const targetId = recentChatIds[Math.floor(Math.random() * recentChatIds.length)];
+    const targetId = recentChatIds[Math.floor(Math.random() * recentChatIds.length)]!;
 
-    messageLayerRef.value?.patchData(
-      (item) => item.msgId === targetId && item.type === 'chat',
-      (item) => {
-        const chatItem = item as ChatMessage;
-        return { likes: chatItem.likes + 1 }; // 只需要返回要修改的字段
-      },
-    );
+    messageLayerRef.value?.patchData((item) => {
+      if (item.msgId === targetId && item.type === 'chat') {
+        return { ...item, likes: item.likes + 1 };
+      }
+    });
   }, 1000); // 每 800ms 随机点个赞
 
   // 4. 模拟房管违规屏蔽 (打补丁 - 长度变化测试引擎滑动是否平滑)
@@ -135,25 +139,29 @@ onMounted(() => {
 
     const targetId = recentChatIds[Math.floor(Math.random() * recentChatIds.length)];
 
-    messageLayerRef.value?.patchData(
-      (item) => item.msgId === targetId && item.type === 'chat',
-      () => ({
-        isCensored: true,
-        content: '***该条消息涉嫌违规，已被房管屏蔽***',
-      }),
-    );
+    messageLayerRef.value?.patchData((item) => {
+      if (item.msgId === targetId && item.type === 'chat')
+        return {
+          ...item,
+          isCensored: true,
+          content: '***该条消息涉嫌违规，已被房管屏蔽***',
+        };
+    });
   }, 2000); // 每5秒有概率封禁一条
 
   timers.push(chatTimer, giftTimer, likeTimer, censorTimer);
 });
 
+
 onBeforeUnmount(() => {
   timers.forEach(clearInterval);
 });
 
+
 function stop() {
   timers.forEach(clearInterval);
 }
+
 
 // 手动清屏
 const clearMessages = () => {

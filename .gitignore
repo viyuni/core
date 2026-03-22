@@ -47,3 +47,5 @@ prod.db
 .claude
 .trae
 skills-lock.json
+
+/.context

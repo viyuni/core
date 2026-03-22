@@ -1,4 +1,4 @@
-import { Cmd, ViyuniEventType, type Guard } from '@viyuni/event-types';
+import { Cmd, ViyuniEventType, GuardType, type Guard } from '@viyuni/event-types';
 
 import { defineEventParser } from './parser';
 import durationByPrice from './utils';
@@ -11,7 +11,12 @@ function getTotalNormalized(total: number, unit: string) {
 
 export const USER_TOAST_MSG_V2_PARSER = defineEventParser({
   cmd: Cmd.USER_TOAST_MSG_V2,
-  parser(cmd: Cmd.USER_TOAST_MSG_V2, data: USER_TOAST_MSG_V2, roomId, eventListenerUid): Guard {
+  parser(
+    cmd: typeof Cmd.USER_TOAST_MSG_V2,
+    data: USER_TOAST_MSG_V2,
+    roomId,
+    eventListenerUid,
+  ): Guard {
     const {
       data: { sender_uinfo, guard_info, pay_info, option, toast_msg, effect_info },
       send_time,
@@ -25,8 +30,8 @@ export const USER_TOAST_MSG_V2_PARSER = defineEventParser({
 
     return {
       id: `${send_time}:${guard_info.start_time}:${roomId}:${guard_info.guard_level}:${pay_info.price}`,
-      cmd,
       type: ViyuniEventType.Guard,
+      cmd,
       uid: sender_uinfo.uid,
       uname: sender_uinfo.base?.name,
       face: sender_uinfo.base?.face,
@@ -92,7 +97,7 @@ interface Guardinfo {
   end_time: number;
   role_name: string;
   start_time: number;
-  guard_level: number;
+  guard_level: GuardType;
   room_guard_count: number;
 }
 interface Giftinfo {

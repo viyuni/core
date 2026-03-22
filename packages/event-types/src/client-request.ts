@@ -6,7 +6,7 @@ import { ViyuniEventType } from './common';
 export interface SubscribeRequest {
   type: 'subscribe';
   roomId?: number;
-  events: string[];
+  events: ViyuniEventType[];
 }
 
 /** 取消订阅请求 */

@@ -1,31 +1,21 @@
 import { EventEmitter } from 'events';
 
-import { Cmd, type ViyuniEvent } from '@viyuni/event-types';
+import { Cmd } from '@viyuni/event-types';
+import { fetchDanmuInfo, fetchNavInfo } from '@viyuni/shared';
 import { KeepLiveTCP } from 'bilibili-live-ws';
 import { parseCookie } from 'cookie';
 
-import { fetchDanmuInfo, fetchNavInfo } from './bili-api';
-import { parsers } from './parsers';
-export * from './parsers';
-
-type ListenerEvents = {
-  unknownEvent: (event: Record<string, unknown> | unknown[]) => void;
-  unimplementedEvent: (cmd: Cmd, raw: Record<string, unknown>) => void;
-  event: (event: ViyuniEvent) => void;
-};
-
-export interface ListenerConfig {
-  roomId: number;
-  cookie: string;
-}
+import * as AllParsers from './parsers';
+import { ParserEventStatus, type ListenerConfig, type ListenerEvents } from './types';
 
 class BliveListener {
   private ws: KeepLiveTCP | null = null;
   private roomId: number;
-  private emitter = new EventEmitter();
+  private emitter = new EventEmitter<ListenerEvents>();
   private cookie = '';
   private buvid = '';
   private uid = 0;
+  private static parsers = Object.values(AllParsers);
 
   constructor(config: ListenerConfig) {
     this.roomId = config.roomId;
@@ -72,8 +62,8 @@ class BliveListener {
     });
 
     this.ws.addListener('msg', (msg) => this.handleMsg(msg));
-    this.ws.addListener('close', () => console.log(`${this.roomId} 连接已关闭...`));
-    this.ws.addListener('error', (err) => console.error('连接错误:', err));
+    this.ws.addListener('close', () => this.emitter.emit('close'));
+    this.ws.addListener('error', (err) => this.emitter.emit('error', err));
   }
 
   /** 停止监听 */
@@ -90,7 +80,22 @@ class BliveListener {
   }
 
   /** 事件监听 */
-  on<E extends keyof ListenerEvents>(event: E, callback: ListenerEvents[E]) {
+  on(event: 'event', callback: (...args: ListenerEvents['event']) => void): () => void;
+  on(event: 'close', callback: (...args: ListenerEvents['close']) => void): () => void;
+  on(event: 'error', callback: (...args: ListenerEvents['error']) => void): () => void;
+  on(
+    event: typeof ParserEventStatus.Unknown,
+    callback: (...args: ListenerEvents['unknown']) => void,
+  ): () => void;
+  on(
+    event: typeof ParserEventStatus.Unimplemented,
+    callback: (...args: ListenerEvents['unimplemented']) => void,
+  ): () => void;
+  on(
+    event: typeof ParserEventStatus.ParsingFailed,
+    callback: (...args: ListenerEvents['parsingFailed']) => void,
+  ): () => void;
+  on(event: keyof ListenerEvents, callback: (...args: any[]) => any) {
     this.emitter.on(event, callback);
     return () => this.emitter.off(event, callback);
   }
@@ -103,21 +108,26 @@ class BliveListener {
     const isKnownCmd = Object.values(Cmd).includes(cmd);
 
     if (!isKnownCmd) {
-      this.emitter.emit('unknownEvent', msg);
+      this.emitter.emit(ParserEventStatus.Unknown, msg);
       return;
     }
 
-    const parser = parsers.find((parser) => parser.cmd === cmd)?.parser;
+    const parser = BliveListener.parsers.find((parser) => parser.cmd === cmd)?.parser;
 
     if (!parser) {
-      this.emitter.emit('unimplementedEvent', cmd, msg as Record<string, unknown>);
+      this.emitter.emit(ParserEventStatus.Unimplemented, cmd, msg);
       return;
     }
 
-    const parsed = parser(cmd, msg, this.roomId!, this.uid ?? 0);
+    try {
+      const parsed = parser(cmd, msg, this.roomId!, this.uid ?? 0);
 
-    if (parsed) {
-      this.emitter.emit('event', parsed);
+      if (parsed) {
+        this.emitter.emit('event', parsed);
+      }
+    } catch (error) {
+      console.error(`[Room ${this.roomId}] [ParseError] [${cmd}]:`, error);
+      this.emitter.emit(ParserEventStatus.ParsingFailed, cmd, msg, error);
     }
   }
 }

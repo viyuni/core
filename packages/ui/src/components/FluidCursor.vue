@@ -1,14 +1,16 @@
 <script setup lang="ts">
 // @ts-nocheck
 import type { HTMLAttributes } from 'vue';
-import { cn } from '../lib/utils';
 import { onMounted, ref, watch } from 'vue';
+
+import { cn } from '../lib/utils';
 
 interface ColorRGB {
   r: number;
   g: number;
   b: number;
 }
+
 
 interface Props {
   simResolution?: number;
@@ -28,6 +30,7 @@ interface Props {
   class?: HTMLAttributes['class'];
 }
 
+
 const props = withDefaults(defineProps<Props>(), {
   simResolution: 128,
   dyeResolution: 1440,
@@ -45,6 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
   transparent: true,
 });
 
+
 interface Pointer {
   id: number;
   texcoordX: number;
@@ -57,6 +61,7 @@ interface Pointer {
   moved: boolean;
   color: ColorRGB;
 }
+
 
 function pointerPrototype(): Pointer {
   return {
@@ -73,7 +78,9 @@ function pointerPrototype(): Pointer {
   };
 }
 
+
 const canvasRef = ref<HTMLCanvasElement | null>(null);
+
 
 onMounted(() => {
   const canvas = canvasRef.value;

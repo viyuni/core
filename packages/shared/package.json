@@ -2,13 +2,35 @@
   "name": "@viyuni/shared",
   "type": "module",
   "module": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "dependencies": {
-    "arktype": "^2.2.0"
+    "@standard-schema/spec": "^1.1.0",
+    "arktype": "^2.2.0",
+    "ky": "^1.14.3",
+    "vue": "beta",
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "overrides": {
+    "@vue/compat": "beta",
+    "@vue/compiler-core": "beta",
+    "@vue/compiler-dom": "beta",
+    "@vue/compiler-sfc": "beta",
+    "@vue/compiler-ssr": "beta",
+    "@vue/compiler-vapor": "beta",
+    "@vue/reactivity": "beta",
+    "@vue/runtime-core": "beta",
+    "@vue/runtime-dom": "beta",
+    "@vue/runtime-vapor": "beta",
+    "@vue/server-renderer": "beta",
+    "@vue/shared": "beta",
+    "vue": "beta"
   }
 }

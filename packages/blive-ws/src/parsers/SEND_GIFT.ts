@@ -12,7 +12,7 @@ import durationByPrice from './utils';
 
 export const SEND_GIFT_PARSER = defineEventParser({
   cmd: Cmd.SEND_GIFT,
-  parser(cmd: Cmd.SEND_GIFT, { data }: SEND_GIFT, roomId, eventListenerUid): Gift {
+  parser(cmd: typeof Cmd.SEND_GIFT, { data }: SEND_GIFT, roomId, eventListenerUid): Gift {
     const {
       sender_uinfo,
       uid,
@@ -52,6 +52,7 @@ export const SEND_GIFT_PARSER = defineEventParser({
           level: medal_info?.medal_level ?? 0,
           isLighted: medal_info?.is_lighted ?? false,
           uid: medal_info?.target_id ?? 0,
+          guardType: medal_info.guard_level ?? 0,
         } satisfies FansMedal)
       : null;
 
@@ -79,8 +80,8 @@ export const SEND_GIFT_PARSER = defineEventParser({
 
     return {
       id: `${cmd}:${roomId}:${uid}:${timestamp}:${giftId}:${comboTotalCoin / 1000}`,
-      cmd,
       type: ViyuniEventType.Gift,
+      cmd,
       uid: finalUid,
       uname: finalUname,
       face: finalFace,
@@ -269,7 +270,7 @@ interface Receiveuserinfo {
 interface Medalinfo {
   anchor_roomid: number;
   anchor_uname: string;
-  guard_level: number;
+  guard_level: GuardType;
   icon_id: number;
   is_lighted: number;
   medal_color: number;

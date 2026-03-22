@@ -1,8 +1,8 @@
-import type { Cmd, ViyuniEventType } from './common';
+import { Cmd, ViyuniEventType } from './common';
 
 export interface Guard {
-  cmd: Cmd.USER_TOAST_MSG_V2;
-  type: ViyuniEventType.Guard;
+  cmd: typeof Cmd.USER_TOAST_MSG_V2;
+  type: typeof ViyuniEventType.Guard;
   id: string;
   /**
    * 稳定 key，用于避免重复事件

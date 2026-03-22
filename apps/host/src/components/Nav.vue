@@ -8,6 +8,7 @@ interface Menu {
   desc?: string;
 }
 
+
 const menus = [
   { label: '歌单', to: '/' },
   { label: '舰长积分', to: '/' },

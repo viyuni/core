@@ -12,7 +12,9 @@
     "apps/games/*",
     "apps/tools/*",
     "scripts",
-    "docs/*"
+    "docs/*",
+    "tools/*",
+    "!.context/*"
   ],
   "scripts": {
     "fmt": "oxfmt",
@@ -20,20 +22,19 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "dev:web": "bun --filter @viyuni/scripts dev",
-    "dev:blive-ws": "bun --filter @viyuni/blive-ws dev",
-    "dev:event-logs": "bun --filter @viyuni/event-logs dev",
-    "build:web": "bun --filter @viyuni/scripts build"
+    "dev:bevent-relay": "bun --filter @viyuni/bevent-relay dev",
+    "dev:control-panel": "bun --filter @viyuni/control-panel dev",
+    "build:web": "bun --filter @viyuni/scripts build",
+    "type-check": "vue-tsc --build"
   },
   "devDependencies": {
     "lint-staged": "^16.4.0",
-    "oxfmt": "^0.34.0",
-    "oxlint": "^1.49.0",
-    "typescript": "~5.9.3"
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.2.6"
   },
   "lint-staged": {
-    "*": [
-      "bun run fmt",
-      "bun run lint:fix"
-    ]
+    "*": "bun run fmt && bun run lint:fix"
   }
 }

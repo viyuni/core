@@ -111,3 +111,23 @@ html {
     color: var(--selection-color);
   }
 }
+
+@utility size-screen {
+  @apply w-screen h-screen;
+}
+
+@theme {
+  --animate-pop-in: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  @keyframes popIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}

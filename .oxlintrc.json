@@ -117,11 +117,6 @@
     "next": {
       "rootDir": []
     },
-    "react": {
-      "formComponents": [],
-      "linkComponents": [],
-      "version": null
-    },
     "jsdoc": {
       "ignorePrivate": false,
       "ignoreInternal": false,
@@ -140,5 +135,5 @@
     "builtin": true
   },
   "globals": {},
-  "ignorePatterns": ["**/node_modules/**"]
+  "ignorePatterns": ["**/node_modules/**", "**/drizzle/**"]
 }

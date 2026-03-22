@@ -1,9 +1,16 @@
 {
   "files": [],
+  "exclude": ["**/node_modules/*"],
   "references": [
+    { "path": "./scripts" },
     { "path": "./apps/host" },
-    { "path": "./apps/tools/obs-clock" },
+    { "path": "./apps/playground" },
+    { "path": "./tools/obs-clock" },
+    { "path": "./tools/gift-show" },
     { "path": "./packages/shared" },
-    { "path": "./packages/ui" }
+    { "path": "./packages/ui" },
+    { "path": "./packages/event-types" },
+    { "path": "./packages/blive-ws" },
+    { "path": "./packages/bevent-client" }
   ]
 }
