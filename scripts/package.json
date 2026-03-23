@@ -7,8 +7,8 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "dev": "bun ./src/dev.ts",
-    "build": "bun ./src/build.ts"
+    "dev": "node --experimental-strip-types ./src/dev.ts",
+    "build": "node --experimental-strip-types ./src/build.ts"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",

@@ -1,7 +1,9 @@
-import { ListenerManager } from './modules/listener';
-import { RoomService } from './modules/room';
-import { SchedulerService } from './modules/scheduler';
-import { ShutdownService } from './modules/shutdown';
+import 'dotenv/config';
+import { ListenerManager } from '@/modules/listener';
+import { RoomService } from '@/modules/room';
+import { SchedulerService } from '@/modules/scheduler';
+import { ShutdownService } from '@/modules/shutdown';
+
 import { app } from './server';
 
 async function bootstrap() {

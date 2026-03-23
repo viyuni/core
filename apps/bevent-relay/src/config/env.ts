@@ -1,4 +1,6 @@
+import 'dotenv/config';
 import arkenv from 'arkenv';
+
 export const env = arkenv({
   DATABASE_URL: 'string',
   LOGIN_SYNC_URL: 'string',

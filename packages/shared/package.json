@@ -12,9 +12,7 @@
     "vue": "beta",
     "vue-router": "^5.0.4"
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "typescript": "^5"
   },

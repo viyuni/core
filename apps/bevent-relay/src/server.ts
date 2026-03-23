@@ -1,5 +1,6 @@
 import { bearer } from '@elysiajs/bearer';
 import { cors } from '@elysiajs/cors';
+import { node } from '@elysiajs/node';
 import type { ViyuniEvent } from '@viyuni/event-types';
 import { Elysia } from 'elysia';
 
@@ -9,7 +10,9 @@ import { otherEvent } from './modules/other-event';
 import { room } from './modules/room';
 import { ws } from './modules/ws';
 
-export const app = new Elysia()
+export const app = new Elysia({
+  adapter: node(),
+})
   .use(cors())
   .use(bearer())
   .group(

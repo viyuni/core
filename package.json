@@ -21,10 +21,10 @@
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "dev:web": "bun --filter @viyuni/scripts dev",
-    "dev:bevent-relay": "bun --filter @viyuni/bevent-relay dev",
-    "dev:control-panel": "bun --filter @viyuni/control-panel dev",
-    "build:web": "bun --filter @viyuni/scripts build",
+    "dev:web": "pnpm --filter @viyuni/scripts dev",
+    "dev:bevent-relay": "pnpm --filter @viyuni/bevent-relay dev",
+    "dev:control-panel": "pnpm --filter @viyuni/control-panel dev",
+    "build:web": "pnpm --filter @viyuni/scripts build",
     "type-check": "vue-tsc --build"
   },
   "devDependencies": {
@@ -35,6 +35,6 @@
     "vue-tsc": "^3.2.6"
   },
   "lint-staged": {
-    "*": "bun run fmt && bun run lint:fix"
+    "*": "pnpm run fmt && pnpm run lint:fix"
   }
 }

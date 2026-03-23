@@ -130,7 +130,10 @@ export abstract class RoomService {
     for (const roomId of env.ROOMS ?? []) {
       const hasRoom = await this.findById(roomId);
 
-      if (hasRoom) continue;
+      if (hasRoom) {
+        roomIds.push(roomId);
+        continue
+      };
 
       const roomInfo = await fetchRoomInfo(roomId);
 

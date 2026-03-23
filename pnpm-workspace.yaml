@@ -1,0 +1,10 @@
+packages:
+  - 'services/*'
+  - 'packages/*'
+  - 'apps/*'
+  - 'apps/games/*'
+  - 'apps/tools/*'
+  - 'scripts'
+  - 'docs/*'
+  - 'tools/*'
+  - '!.context/*'
