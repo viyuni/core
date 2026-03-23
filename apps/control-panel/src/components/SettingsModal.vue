@@ -2,7 +2,7 @@
 import { Modal } from '@viyuni/ui';
 import { ref, watch } from 'vue';
 
-import { useAuth } from '../compositions/useAuth';
+import { useAuth } from '../composables/useAuth';
 
 const { isOpen } = defineProps<{ isOpen: boolean }>();
 

@@ -1,4 +1,5 @@
 import { useQuery } from '@pinia/colada';
+import { ViyuniEventType } from '@viyuni/event-types';
 import { computed, ref } from 'vue';
 
 import { useApiClient } from './useApiClient';
@@ -8,7 +9,7 @@ export function useEvents() {
 
   const limit = ref(50);
   const offset = ref(0);
-  const cmdFilter = ref<string | null>(null);
+  const typeFilter = ref<ViyuniEventType | null>(null);
 
   const range = computed(() => [offset.value, limit.value + offset.value] as const);
   const pageTotal = computed(() => Math.ceil((data.value?.total ?? 0) / limit.value));
@@ -20,14 +21,14 @@ export function useEvents() {
   );
 
   const { data, isLoading, refetch } = useQuery({
-    key: () => ['events', limit.value, offset.value, cmdFilter.value],
+    key: () => ['events', limit.value, offset.value, typeFilter.value],
     async query() {
       return client.value.api.events
         .get({
           query: {
             limit: limit.value,
             offset: offset.value,
-            ...(cmdFilter.value && { cmd: cmdFilter.value }),
+            ...(typeFilter.value && { type: typeFilter.value }),
           },
         })
         .then((res) => res.data);
@@ -56,7 +57,7 @@ export function useEvents() {
     limit,
     range,
     offsetList,
-    cmdFilter,
+    typeFilter,
     nextPage,
     prevPage,
     refetch,

@@ -1,4 +1,5 @@
 import { ParserEventStatus } from '@viyuni/blive-ws/types';
+import { ViyuniEventType, type ViyuniEvent } from '@viyuni/event-types';
 import { createInsertSchema, createUpdateSchema } from 'drizzle-arktype';
 import type { InferSelectModel } from 'drizzle-orm';
 import { index, pgTable, uniqueIndex, pgEnum } from 'drizzle-orm/pg-core';
@@ -8,11 +9,14 @@ export const rooms = pgTable(
   (t) => ({
     id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
     name: t.text(),
-    roomId: t.integer('room_id').unique().notNull(),
-    shortRoomId: t.integer('short_room_id'),
+    roomId: t.bigint('room_id', { mode: 'number' }).unique().notNull(),
+    shortRoomId: t.bigint('short_room_id', { mode: 'number' }),
+    uid: t.bigint('uid', { mode: 'number' }),
     uname: t.text(),
-    uid: t.numeric(),
     face: t.text(),
+    status: t.integer().default(0).notNull(),
+    news: t.text(),
+    medalName: t.text('medal_name'),
     enabled: t.boolean().default(true).notNull(),
     createdAt: t
       .timestamp('created_at', {
@@ -22,16 +26,24 @@ export const rooms = pgTable(
       .notNull()
       .defaultNow(),
   }),
-  (t) => [uniqueIndex('rooms_id_idx').on(t.id)],
+  (t) => [
+    uniqueIndex('rooms_id_idx').on(t.id),
+    index('rooms_room_id_idx').on(t.roomId),
+    index('rooms_uid_idx').on(t.uid),
+    index('rooms_created_at_idx').on(t.createdAt),
+  ],
 );
+
+export const eventTypeEnum = pgEnum('event_type_enum', ViyuniEventType);
 
 export const events = pgTable(
   'events_table',
   (t) => ({
     id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
-    cmd: t.text().notNull(),
-    roomId: t.text('room_id').notNull(),
-    data: t.jsonb(),
+    eventId: t.text('event_id').unique().notNull(),
+    type: t.text().notNull(),
+    roomId: t.bigint('room_id', { mode: 'number' }).notNull(),
+    data: t.jsonb().$type<ViyuniEvent>(),
     createdAt: t
       .timestamp('created_at', {
         precision: 3,
@@ -42,25 +54,22 @@ export const events = pgTable(
   }),
   (t) => [
     uniqueIndex('events_id_idx').on(t.id),
-    index('events_cmd_idx').on(t.cmd),
+    index('events_type_idx').on(t.type),
     index('events_room_id_idx').on(t.roomId),
     index('events_created_at_idx').on(t.createdAt),
-    index('events_cmd_room_id_idx').on(t.cmd, t.roomId),
-    index('events_cmd_room_id_created_at_idx').on(t.cmd, t.roomId, t.createdAt),
+    index('events_type_room_id_idx').on(t.type, t.roomId),
+    index('events_type_room_id_created_at_idx').on(t.type, t.roomId, t.createdAt),
   ],
 );
 
-export const otherEventStatusEnum = pgEnum(
-  'other_event_status_enum',
-  Object.values(ParserEventStatus) as [string, ...string[]],
-);
+export const otherEventStatusEnum = pgEnum('other_event_status_enum', ParserEventStatus);
 
 export const otherEvents = pgTable(
   'other_events_table',
   (t) => ({
     id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
     cmd: t.text().notNull(),
-    roomId: t.text('room_id').notNull(),
+    roomId: t.bigint('room_id', { mode: 'number' }).notNull(),
     status: otherEventStatusEnum('status').notNull().default('unknown'),
     raw: t.jsonb(),
     extra: t.jsonb(),
@@ -75,8 +84,8 @@ export const otherEvents = pgTable(
   (t) => [
     uniqueIndex('other_events_id_idx').on(t.id),
     index('other_events_cmd_idx').on(t.cmd),
-    index('other_events_roomId_idx').on(t.roomId),
-    index('other_events_cmd_roomId_idx').on(t.cmd, t.roomId),
+    index('other_events_room_id_idx').on(t.roomId),
+    index('other_events_cmd_room_id_idx').on(t.cmd, t.roomId),
     index('other_events_created_at_idx').on(t.createdAt),
   ],
 );

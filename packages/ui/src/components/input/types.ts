@@ -1,9 +1,9 @@
-import type { InputTypeHTMLAttribute } from 'vue'
+import type { InputTypeHTMLAttribute } from 'vue';
 
 export interface InputProps {
-  placeholder?: string
-  error?: boolean
-  disabled?: boolean
-  type?: InputTypeHTMLAttribute
-  class?: string
+  placeholder?: string;
+  error?: boolean;
+  disabled?: boolean;
+  type?: InputTypeHTMLAttribute;
+  class?: string;
 }

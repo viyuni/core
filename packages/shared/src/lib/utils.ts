@@ -11,3 +11,9 @@ export function validate<T extends StandardSchemaV1>(schema: T, data: unknown) {
   }
   return { success: true, data: result.value as StandardSchemaV1.InferOutput<T>, issues: null };
 }
+
+export const toProxyUrl = (url?: string | null) => {
+  if (!url) return '';
+
+  return url.replace(/^https?:\/\//, 'https://img-proxy.viyuni.top/');
+};

@@ -95,7 +95,7 @@ onMounted(() => {
     recentChatIds.push(id);
     if (recentChatIds.length > 50) recentChatIds.shift(); // 维护最新的50个ID用来测试
 
-    messageLayerRef.value?.pushData({
+    messageLayerRef.value?.push({
       msgId: id,
       type: 'chat',
       username: '用户_' + Math.floor(Math.random() * 1000),
@@ -110,7 +110,7 @@ onMounted(() => {
   const giftTimer = setInterval(() => {
     if (Math.random() > 0.7) {
       // 30% 概率出礼物
-      messageLayerRef.value?.pushData({
+      messageLayerRef.value?.push({
         msgId: 'gift_' + Date.now(),
         type: 'gift',
         username: '王总',
@@ -126,7 +126,7 @@ onMounted(() => {
     // 随机挑一个幸运观众点赞
     const targetId = recentChatIds[Math.floor(Math.random() * recentChatIds.length)]!;
 
-    messageLayerRef.value?.patchData((item) => {
+    messageLayerRef.value?.patch((item) => {
       if (item.msgId === targetId && item.type === 'chat') {
         return { ...item, likes: item.likes + 1 };
       }
@@ -139,7 +139,7 @@ onMounted(() => {
 
     const targetId = recentChatIds[Math.floor(Math.random() * recentChatIds.length)];
 
-    messageLayerRef.value?.patchData((item) => {
+    messageLayerRef.value?.patch((item) => {
       if (item.msgId === targetId && item.type === 'chat')
         return {
           ...item,
@@ -165,7 +165,7 @@ function stop() {
 
 // 手动清屏
 const clearMessages = () => {
-  messageLayerRef.value?.clearAll();
+  messageLayerRef.value?.clear();
   recentChatIds.length = 0;
 };
 </script>

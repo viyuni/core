@@ -3,7 +3,7 @@
 import type { HTMLAttributes } from 'vue';
 import { onMounted, ref, watch } from 'vue';
 
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 interface ColorRGB {
   r: number;

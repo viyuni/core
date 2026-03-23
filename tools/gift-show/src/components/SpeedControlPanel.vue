@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useLocalStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core';
+import { ref, watch } from 'vue';
 
 const emit = defineEmits<{
-  'update:gift1Speed': [value: number]
-  'update:gift2Speed': [value: number]
-  'update:guardSpeed': [value: number]
-  'pause': []
-  'resume': []
-}>()
+  'update:gift1Speed': [value: number];
+  'update:gift2Speed': [value: number];
+  'update:guardSpeed': [value: number];
+  pause: [];
+  resume: [];
+}>();
 
-const gift1Speed = useLocalStorage('gift1-speed', 200)
-const gift2Speed = useLocalStorage('gift2-speed', 200)
-const guardSpeed = useLocalStorage('guard-speed', 200)
 
-watch(gift1Speed, (v) => emit('update:gift1Speed', v))
-watch(gift2Speed, (v) => emit('update:gift2Speed', v))
-watch(guardSpeed, (v) => emit('update:guardSpeed', v))
+const gift1Speed = useLocalStorage('gift1-speed', 200);
+const gift2Speed = useLocalStorage('gift2-speed', 200);
+const guardSpeed = useLocalStorage('guard-speed', 200);
 
-const isOpen = ref(true)
-const presetSpeeds = [50, 100, 200, 500, 1000]
+
+watch(gift1Speed, (v) => emit('update:gift1Speed', v));
+watch(gift2Speed, (v) => emit('update:gift2Speed', v));
+watch(guardSpeed, (v) => emit('update:guardSpeed', v));
+
+
+const isOpen = ref(true);
+const presetSpeeds = [50, 100, 200, 500, 1000];
+
 
 function pauseAll() {
-  emit('pause')
+  emit('pause');
 }
 
+
 function resumeAll() {
-  emit('resume')
+  emit('resume');
 }
 </script>
 
 <template>
-  <div class="fixed top-4 right-4 z-50">
-    <div v-if="isOpen" class="bg-base-200/95 backdrop-blur rounded-lg shadow-xl p-4 w-64 border border-base-300">
+  <div class="fixed top-4 right-4 z-50 w-f">
+    <div
+      v-if="isOpen"
+      class="bg-base-200/95 backdrop-blur rounded-lg shadow-xl p-4 w-64 border border-base-200"
+    >
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-bold text-sm">速度控制</h3>
         <button class="btn btn-ghost btn-xs" @click="isOpen = false">✕</button>
@@ -126,12 +134,6 @@ function resumeAll() {
     </div>
 
     <!-- Toggle Button (collapsed) -->
-    <button
-      v-else
-      class="btn btn-primary btn-circle shadow-xl"
-      @click="isOpen = true"
-    >
-      ⚡
-    </button>
+    <button v-else class="btn btn-primary btn-circle shadow-xl" @click="isOpen = true">⚡</button>
   </div>
 </template>

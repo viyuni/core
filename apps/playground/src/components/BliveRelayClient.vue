@@ -16,7 +16,7 @@ useBeventClient({
   events: Object.values(ViyuniEventType),
   onMessage({ data }) {
     if (data.type === ViyuniEventType.LikesUpdate) {
-      liveChatScrollerRef.value?.patchData(
+      liveChatScrollerRef.value?.patch(
         (item) => {
           if (item.type === ViyuniEventType.LikesUpdate && item.roomId === data.roomId) {
             return {
@@ -30,7 +30,7 @@ useBeventClient({
       );
     } else if (data.type === ViyuniEventType.Gift) {
       console.log(data);
-      liveChatScrollerRef.value?.patchData(
+      liveChatScrollerRef.value?.patch(
         (item) => {
           if (
             item.type === ViyuniEventType.Gift &&
@@ -47,7 +47,7 @@ useBeventClient({
         () => data,
       );
     } else if (data.type === ViyuniEventType.LikeClick) {
-      liveChatScrollerRef.value?.patchData(
+      liveChatScrollerRef.value?.patch(
         (item) => {
           if (
             item.type === ViyuniEventType.LikeClick &&
@@ -63,7 +63,7 @@ useBeventClient({
         () => data,
       );
     } else if (data.type === ViyuniEventType.EntryEffect) {
-      liveChatScrollerRef.value?.patchData(
+      liveChatScrollerRef.value?.patch(
         (item) => {
           if (item.type === ViyuniEventType.EntryEffect && item.roomId === data.roomId) {
             return {
@@ -76,7 +76,7 @@ useBeventClient({
         () => data,
       );
     } else {
-      liveChatScrollerRef.value?.pushData(data);
+      liveChatScrollerRef.value?.push(data);
     }
   },
 });

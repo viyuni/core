@@ -16,7 +16,7 @@ export const LIKE_INFO_V3_UPDATE_PARSER = defineEventParser({
     const clickCount = peek(data, '/data/click_count') ?? 0;
 
     return {
-      id: `${cmd}:${roomId}:${timestamp}`,
+      id: `${cmd}:${roomId}:${timestamp}:${clickCount}`,
       type: ViyuniEventType.LikesUpdate,
       cmd,
       roomId,

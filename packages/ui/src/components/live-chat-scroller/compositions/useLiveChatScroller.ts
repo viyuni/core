@@ -9,16 +9,21 @@ export function useLiveChatScroller<T extends Record<string, any>>(
 ) {
   const { itemKey = defaultValues.itemKey, maxItems = defaultValues.maxItems } = props;
 
-  // --- 状态维护 ---
   const rendererList = shallowRef<T[]>([]); // 视图渲染队列
   const buffer: T[] = []; // 数据缓冲队列
+  const jitterBuffer: T[] = []; // 抖动缓冲队列
   const patchQueue: PatchTask<T>[] = []; // 增量更新补丁队列
 
   let isDestroyed = false;
 
-  // --- 物理引擎状态 ---
+  // 渲染循环 id
   let renderLoopId: ReturnType<typeof requestAnimationFrame> | null = null;
+
+  // 数据处理循环 id
   let processLoopId: ReturnType<typeof requestAnimationFrame> | null = null;
+
+  let dispatchLoopId: ReturnType<typeof requestAnimationFrame> | null = null;
+
   let lastTime = 0;
 
   let visualOffset = 0; // 当前容器的 Y 轴物理偏移量 (px)
@@ -30,7 +35,7 @@ export function useLiveChatScroller<T extends Record<string, any>>(
    */
   const smoothTime = 0.08;
 
-  const getItemKey = (item: any): string => String(item[itemKey]);
+  const getKey = (item: any): string => String(item[itemKey]);
 
   /**
    * 处理增量更新补丁 (纯数据层运算)
@@ -62,16 +67,14 @@ export function useLiveChatScroller<T extends Record<string, any>>(
         });
       }
 
-      if (!hasHit && creator) buffer.push({ ...creator() });
+      if (!hasHit && creator) jitterBuffer.push({ ...creator() });
     }
 
     patchQueue.length = 0;
     return hasChanges;
   }
 
-  // ==========================================
-  // 渲染线程：基于 SmoothDamp 算法的物理位移计算
-  // ==========================================
+  // 渲染循环, 基于 SmoothDamp 算法的物理位移计算
   const renderPhysics = (time: number) => {
     if (isDestroyed) return;
 
@@ -111,9 +114,7 @@ export function useLiveChatScroller<T extends Record<string, any>>(
     renderLoopId = requestAnimationFrame(renderPhysics);
   };
 
-  // ==========================================
-  // 逻辑线程：数据合并、DOM 截断高度补偿与渲染拦截
-  // ==========================================
+  // 数据处理循环, 数据合并、DOM 截断高度补偿与渲染拦截
   let isProcessingData = false;
 
   const processDataLoop = async () => {
@@ -169,7 +170,7 @@ export function useLiveChatScroller<T extends Record<string, any>>(
       // 触发 Vue 响应式更新
       rendererList.value = newRendererList;
 
-      // 等待 Vue 虚拟 DOM 对比及真实 DOM 挂载完成
+      // 等待 Vue 处理虚拟 DOM
       await nextTick();
 
       if (wrapper) {
@@ -180,10 +181,11 @@ export function useLiveChatScroller<T extends Record<string, any>>(
           // 累加物理模型目标偏移量
           visualOffset += heightDiff;
 
-          // 强制同步布局 (Forced Synchronous Layout) (FLIP 思想)
+          // 强制同步布局 (FLIP)
           // 立即应用 transform 并读取 offsetHeight 触发重排，拦截浏览器的异步绘制，避免高度突变引起的闪烁
           wrapper.style.transform = `translate3d(0, ${visualOffset}px, 0)`;
 
+          // 触发浏览器重绘
           // oxlint-disable-next-line no-unused-expressions
           wrapper.offsetHeight;
         }
@@ -194,22 +196,37 @@ export function useLiveChatScroller<T extends Record<string, any>>(
     processLoopId = requestAnimationFrame(processDataLoop);
   };
 
-  // --- API 暴露 ---
+  function dispatchLoop() {
+    if (isDestroyed) return;
 
-  const pushData = (data: T | T[]) => {
-    if (Array.isArray(data)) buffer.push(...data);
-    else buffer.push(data);
+    const len = jitterBuffer.length;
+    if (len > 0) {
+      if (len > 200) {
+        buffer.push(...jitterBuffer.splice(0, 30));
+      } else if (len > 50) {
+        buffer.push(...jitterBuffer.splice(0, 20));
+      } else {
+        buffer.push(...jitterBuffer.splice(0, 5));
+      }
+    }
+
+    dispatchLoopId = requestAnimationFrame(dispatchLoop);
+  }
+
+  const push = (data: T | T[]) => {
+    if (Array.isArray(data)) jitterBuffer.push(...data);
+    else jitterBuffer.push(data);
   };
 
-  const patchData = (updater: Updater<T>, creator: Creator<T>) =>
+  const patch = (updater: Updater<T>, creator: Creator<T>) => {
     patchQueue.push([updater, creator]);
+  };
 
-  const clearAll = () => {
+  const clear = () => {
     buffer.length = 0;
     patchQueue.length = 0;
     rendererList.value = [];
 
-    // 重置物理引擎与视图状态
     visualOffset = 0;
     currentVelocity = 0;
     lastTime = 0;
@@ -222,19 +239,21 @@ export function useLiveChatScroller<T extends Record<string, any>>(
   onMounted(() => {
     renderLoopId = requestAnimationFrame(renderPhysics);
     processLoopId = requestAnimationFrame(processDataLoop);
+    dispatchLoopId = requestAnimationFrame(dispatchLoop);
   });
 
   onBeforeUnmount(() => {
     isDestroyed = true;
     if (renderLoopId) cancelAnimationFrame(renderLoopId);
     if (processLoopId) cancelAnimationFrame(processLoopId);
+    if (dispatchLoopId) cancelAnimationFrame(dispatchLoopId);
   });
 
   return {
     rendererList,
-    pushData,
-    patchData,
-    clearAll,
-    getItemKey,
+    push,
+    patch,
+    clear,
+    getKey,
   };
 }

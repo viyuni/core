@@ -13,19 +13,20 @@
   "dependencies": {
     "@json-render/core": "^0.14.1",
     "@json-render/vue": "^0.14.1",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
+    "@viyuni/event-types": "workspace:*",
     "@vueuse/core": "^14.2.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.5.19",
     "gsap": "^3.14.2",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "vue": "beta"
   },
   "devDependencies": {
     "@vue/tsconfig": "^0.9.0",
     "typescript": "^5.9.3",
-    "vite": "^8.0.0"
+    "vite": "^8.0.1"
   },
   "peerDependencies": {
     "@standard-schema/spec": "^1.1.0",

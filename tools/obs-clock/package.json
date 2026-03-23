@@ -14,18 +14,18 @@
     "@vueuse/core": "^14.2.1",
     "arktype": "^2.2.0",
     "vue": "beta",
-    "vue-router": "^5.0.3"
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
-    "@types/node": "^24.11.0",
-    "@vitejs/plugin-vue": "^6.0.4",
+    "@types/node": "^24.12.0",
+    "@vitejs/plugin-vue": "^6.0.5",
     "@vue/tsconfig": "^0.8.1",
     "npm-run-all2": "^8.0.4",
     "typescript": "~5.9.3",
-    "vite": "^8.0.0",
-    "vite-plugin-vue-devtools": "^8.0.6",
-    "vue-tsc": "^3.2.5"
+    "vite": "^8.0.1",
+    "vite-plugin-vue-devtools": "^8.1.0",
+    "vue-tsc": "^3.2.6"
   },
   "overrides": {
     "@vue/compat": "beta",

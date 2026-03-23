@@ -37,7 +37,7 @@ export type Updater<T extends Record<string, any>> = (item: T) => T | undefined 
 export type Creator<T extends Record<string, any>> = () => T;
 
 export interface LiveChatScrollerExpose<T extends Record<string, any>> {
-  pushData(data: T | T[]): void;
+  push(data: T | T[]): void;
   /**
    * 给渲染列表或缓冲列表中的数据打补丁（更新或新增）
    * * @param updater 更新逻辑函数。
@@ -50,8 +50,8 @@ export interface LiveChatScrollerExpose<T extends Record<string, any>> {
    * () => ({ id: 1, text: '初始内容' })
    * );
    */
-  patchData: (updater: Updater<T>, creator?: Creator<T>) => void;
-  clearAll: () => void;
+  patch: (updater: Updater<T>, creator?: Creator<T>) => void;
+  clear: () => void;
 }
 
 export type PatchTask<T extends Record<string, any>> = [updater: Updater<T>, creator?: Creator<T>];

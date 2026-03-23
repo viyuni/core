@@ -6,4 +6,5 @@ export * from './select';
 export * from './checkbox';
 export * from './switch';
 export * from './textarea';
-export { default as FluidCursor } from './FluidCursor.vue';
+export * from './icons';
+export * from './fluid-cursor';

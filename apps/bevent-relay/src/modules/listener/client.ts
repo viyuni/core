@@ -22,7 +22,7 @@ export abstract class RoomClientFactory {
       await OtherEventService.insert({
         cmd,
         raw,
-        roomId: String(roomId),
+        roomId,
         status: ParserEventStatus.Unimplemented,
       });
     });
@@ -32,7 +32,7 @@ export abstract class RoomClientFactory {
       await OtherEventService.insert({
         cmd,
         raw,
-        roomId: String(roomId),
+        roomId,
         status: ParserEventStatus.Unknown,
       });
     });
@@ -42,7 +42,7 @@ export abstract class RoomClientFactory {
       await OtherEventService.insert({
         cmd,
         raw,
-        roomId: String(roomId),
+        roomId,
         status: ParserEventStatus.ParsingFailed,
         extra: { error: err?.message ?? 'Unknown Error', stack: err?.stack ?? '' },
       });

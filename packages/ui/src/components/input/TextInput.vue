@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { cn } from '../../lib/utils'
-import type { InputProps } from './types'
+import { cn } from '../../lib/utils';
+import type { InputProps } from './types';
 
-const props = withDefaults(
-  defineProps<Omit<InputProps, 'type'>>(),
-  {
-    placeholder: '',
-    class: '',
-  },
-)
+const props = withDefaults(defineProps<Omit<InputProps, 'type'>>(), {
+  placeholder: '',
+  class: '',
+});
 
 
 const modelValue = defineModel<string>({ default: '' });

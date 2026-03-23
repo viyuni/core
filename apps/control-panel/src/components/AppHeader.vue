@@ -6,7 +6,6 @@ import Logo from './Logo.vue';
 
 const route = useRoute();
 
-
 defineEmits<{
   setting: [];
 }>();
@@ -17,7 +16,6 @@ defineEmits<{
     <div class="flex items-center gap-4">
       <Logo width="30" />
 
-      <!-- Tab 切换 -->
       <div class="tabs tabs-boxed">
         <RouterLink
           to="/events"
@@ -27,6 +25,7 @@ defineEmits<{
           <Cable :size="16" />
           已解析事件
         </RouterLink>
+
         <RouterLink
           to="/other-events"
           class="tab gap-1 text-sm transition-all"
@@ -35,6 +34,7 @@ defineEmits<{
           <Info :size="16" />
           未知/未实现
         </RouterLink>
+
         <RouterLink
           to="/rooms"
           class="tab gap-1 text-sm transition-all"
@@ -48,7 +48,9 @@ defineEmits<{
 
     <!-- 页面操作按钮区域 -->
     <div class="flex gap-2">
-      <div id="header-actions" class="flex gap-2" />
+      <div>
+        <div id="header-actions" />
+      </div>
       <button class="btn btn-sm btn-square" @click="$emit('setting')">
         <Settings :size="16" />
       </button>

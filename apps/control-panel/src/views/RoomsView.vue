@@ -13,7 +13,8 @@ import {
 } from 'lucide-vue-next';
 import { ref } from 'vue';
 
-import { useRooms } from '../compositions/useRooms';
+import { useRooms } from '../composables/useRooms';
+import { toProxyUrl } from '@viyuni/shared';
 
 const {
   rooms,
@@ -28,12 +29,10 @@ const {
   refetch,
 } = useRooms();
 
-
 const isAdding = ref(false);
 const formData = ref({
   roomId: 0,
 });
-
 
 const confirmModal = ref({
   isOpen: false,
@@ -42,12 +41,10 @@ const confirmModal = ref({
   action: null as (() => Promise<void>) | null,
 });
 
-
 function openAddModal() {
   formData.value = { roomId: 0 };
   isAdding.value = true;
 }
-
 
 async function handleSave() {
   try {
@@ -57,7 +54,6 @@ async function handleSave() {
     console.error('Failed to add room:', err);
   }
 }
-
 
 function confirmDelete(roomId: number) {
   confirmModal.value = {
@@ -74,7 +70,6 @@ function confirmDelete(roomId: number) {
   };
 }
 
-
 function confirmStop(roomId: number) {
   confirmModal.value = {
     isOpen: true,
@@ -90,7 +85,6 @@ function confirmStop(roomId: number) {
   };
 }
 
-
 async function executeConfirm() {
   if (confirmModal.value.action) {
     await confirmModal.value.action();
@@ -98,11 +92,9 @@ async function executeConfirm() {
   confirmModal.value.isOpen = false;
 }
 
-
 async function handleDelete(roomId: number) {
   confirmDelete(roomId);
 }
-
 
 async function handleStart(roomId: number) {
   try {
@@ -112,12 +104,10 @@ async function handleStart(roomId: number) {
   }
 }
 
-
 async function handleStop(roomId: number) {
   // Now using confirmStop
   confirmStop(roomId);
 }
-
 
 async function handleRefreshInfo(roomId: number) {
   try {
@@ -126,7 +116,6 @@ async function handleRefreshInfo(roomId: number) {
     console.error('Failed to refresh room info:', err);
   }
 }
-
 
 async function toggleEnabled(room: any, e: Event) {
   const target = e.target as HTMLInputElement;
@@ -138,17 +127,14 @@ async function toggleEnabled(room: any, e: Event) {
   }
 }
 
-
 const canStart = (room: RoomWithClient) =>
   !room.enabled ||
   room.clientStatus === RoomClientStatus.Connected ||
   room.clientStatus === RoomClientStatus.Reconnecting ||
   room.clientStatus === RoomClientStatus.Connecting;
 
-
 const canStop = (room: RoomWithClient) =>
   !room.enabled || room.clientStatus == RoomClientStatus.Stopped;
-
 
 const clientStatusStyle = {
   [RoomClientStatus.Connected]: 'badge-success',
@@ -162,13 +148,16 @@ const clientStatusStyle = {
 <template>
   <div>
     <Teleport to="#header-actions">
-      <button class="btn btn-sm gap-1" @click="openAddModal">
-        <Plus :size="16" />
-        添加房间
-      </button>
-      <button class="btn btn-sm btn-square" :disabled="isLoading" @click="() => refetch()">
-        <RefreshCw :size="16" />
-      </button>
+      <div class="flex gap-2">
+        <button class="btn btn-sm gap-1" @click="openAddModal">
+          <Plus :size="16" />
+          添加房间
+        </button>
+
+        <button class="btn btn-sm btn-square" :disabled="isLoading" @click="() => refetch()">
+          <RefreshCw :size="16" />
+        </button>
+      </div>
     </Teleport>
 
     <div v-if="isLoading" class="flex justify-center p-8">
@@ -181,7 +170,8 @@ const clientStatusStyle = {
           <tr class="text-xs">
             <th class="w-16">ID</th>
             <th>INFO</th>
-            <th class="w-24">状态</th>
+            <th class="w-24 text-center">直播状态</th>
+            <th class="w-24 text-center">监听器状态</th>
             <th class="w-64 text-right px-4">操作</th>
           </tr>
         </thead>
@@ -193,11 +183,7 @@ const clientStatusStyle = {
               <div class="flex items-center gap-3">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12 border border-base-200 shadow-sm">
-                    <img
-                      :src="`${room.face}?t=${Date.now()}`"
-                      referrerpolicy="no-referrer"
-                      alt="avatar"
-                    />
+                    <img :src="toProxyUrl(room.face)" alt="avatar" />
                   </div>
                 </div>
 
@@ -229,6 +215,13 @@ const clientStatusStyle = {
                 </div>
               </div>
             </td>
+
+            <td class="py3 text-center">
+              <span v-if="room.status === 0" class="badge badge-sm badge-warning"> 未开播 </span>
+              <span v-else-if="room.status === 1" class="badge badge-sm badge-primary">直播中</span>
+              <span v-else class="badge badge-sm badge-info">录播</span>
+            </td>
+
             <td>
               <span
                 class="badge badge-sm uppercase"

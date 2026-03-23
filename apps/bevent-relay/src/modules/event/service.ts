@@ -1,5 +1,5 @@
-import type { ViyuniEvent } from '@viyuni/event-types';
-import { and, count, like, lte } from 'drizzle-orm';
+import type { ViyuniEvent, ViyuniEventType } from '@viyuni/event-types';
+import { and, count, eq, lte } from 'drizzle-orm';
 
 import { db } from '../../db';
 import * as schema from '../../db/schema';
@@ -8,17 +8,17 @@ export abstract class EventService {
   static async query({
     limit = 50,
     offset = 0,
-    cmd,
+    type,
     createdAt,
   }: {
     limit?: number;
     offset?: number;
-    cmd?: string | null;
+    type?: ViyuniEventType | null;
     createdAt?: number | null;
   } = {}) {
     const filter = () =>
       and(
-        cmd ? like(schema.events.cmd, `%${cmd}%`) : undefined,
+        type ? eq(schema.events.type, type) : undefined,
         createdAt ? lte(schema.events.createdAt, new Date(createdAt)) : undefined,
       );
 
@@ -41,8 +41,9 @@ export abstract class EventService {
 
   static async insert(roomId: number, event: ViyuniEvent) {
     return db.insert(schema.events).values({
-      cmd: event.cmd,
-      roomId: String(roomId),
+      eventId: event.id,
+      type: event.type,
+      roomId: roomId,
       data: event,
     });
   }

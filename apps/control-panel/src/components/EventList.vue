@@ -32,7 +32,7 @@ const closeModal = () => {
       <thead>
         <tr class="text-xs">
           <th class="w-24">ID</th>
-          <th class="w-48">CMD</th>
+          <th class="w-48">Type</th>
           <th class="w-24">Room ID</th>
           <th class="w-48">Time</th>
           <th>Parsed Data</th>
@@ -42,8 +42,8 @@ const closeModal = () => {
       <tbody>
         <tr v-for="event in events" :key="event.id" class="hover">
           <td class="font-mono text-xs">{{ event.id }}</td>
-          <td class="max-w-48 truncate" :title="event.cmd">
-            <div class="badge badge-ghost badge-sm">{{ event.cmd }}</div>
+          <td class="max-w-48 truncate" :title="event.type">
+            <div class="badge badge-ghost badge-sm">{{ event.type }}</div>
           </td>
           <td class="font-mono text-xs">{{ event.roomId }}</td>
           <td class="text-xs text-base-content/70">

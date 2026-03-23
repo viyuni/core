@@ -16,7 +16,7 @@ export abstract class RoomService {
     const clientMap = new Map(clients.map((c) => [c.roomId, c.status]));
 
     const rooms = await db.query.rooms.findMany({
-      orderBy: (rooms) => [asc(rooms.createdAt)],
+      orderBy: (rooms) => [asc(rooms.id)],
     });
 
     return rooms.map((room) => ({
@@ -38,10 +38,14 @@ export abstract class RoomService {
       .values({
         ...data,
         roomId: roomInfo.room_id,
-        uid: String(roomInfo.uid),
+        uid: roomInfo.uid,
         uname: roomInfo.uname,
         face: roomInfo.face,
         shortRoomId: roomInfo.short_id,
+        medalName: roomInfo.medal_info?.medal_name ?? '',
+        news: roomInfo.news_info?.content,
+        status: roomInfo.live_status,
+        enabled: data.enabled ?? true,
       })
       .returning()
       .onConflictDoNothing({ target: schema.rooms.roomId });
@@ -106,29 +110,48 @@ export abstract class RoomService {
     await db
       .update(schema.rooms)
       .set({
-        uid: String(roomInfo.uid),
+        uid: roomInfo.uid,
         uname: roomInfo.uname,
         face: roomInfo.face,
-        roomId: roomInfo.room_id,
         shortRoomId: roomInfo.short_id,
+        medalName: roomInfo.medal_info?.medal_name ?? '',
+        news: roomInfo.news_info?.content,
+        status: roomInfo.live_status,
+        roomId: roomInfo.room_id,
       })
       .where(eq(schema.rooms.roomId, roomId));
   }
 
   static async initialize() {
-    const envRoomIds = env.ROOMS ?? ([] as number[]);
+    console.log('Initializing rooms from env...');
 
-    if (envRoomIds.length > 0) {
+    const roomIds: number[] = [];
+
+    for (const roomId of env.ROOMS ?? []) {
+      const hasRoom = await this.findById(roomId);
+
+      if (hasRoom) continue;
+
+      const roomInfo = await fetchRoomInfo(roomId);
+
       await db
         .insert(schema.rooms)
-        .values(envRoomIds.map((roomId) => ({ roomId })))
+        .values({
+          enabled: true,
+          roomId: roomInfo.room_id,
+          uid: roomInfo.uid,
+          uname: roomInfo.uname,
+          face: roomInfo.face,
+          shortRoomId: roomInfo.short_id,
+          medalName: roomInfo.medal_info?.medal_name ?? '',
+          news: roomInfo.news_info?.content,
+          status: roomInfo.live_status,
+        })
         .onConflictDoNothing();
+
+      roomIds.push(roomId);
     }
 
-    const rooms = await db.query.rooms.findMany({
-      where: eq(schema.rooms.enabled, true),
-    });
-
-    return rooms.map((r) => r.roomId);
+    return roomIds;
   }
 }
