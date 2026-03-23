@@ -33,18 +33,21 @@ export abstract class RoomService {
 
   static async create(data: RoomInsert) {
     const roomInfo = await fetchRoomInfo(data.roomId);
+
+    if (!roomInfo) return null;
+
     const [room] = await db
       .insert(schema.rooms)
       .values({
         ...data,
-        roomId: roomInfo.room_id,
-        uid: roomInfo.uid,
-        uname: roomInfo.uname,
-        face: roomInfo.face,
-        shortRoomId: roomInfo.short_id,
-        medalName: roomInfo.medal_info?.medal_name ?? '',
-        news: roomInfo.news_info?.content,
-        status: roomInfo.live_status,
+        roomId: roomInfo?.room_id,
+        uid: roomInfo?.uid,
+        uname: roomInfo?.uname,
+        face: roomInfo?.face,
+        shortRoomId: roomInfo?.short_id,
+        medalName: roomInfo?.medal_info?.medal_name ?? '',
+        news: roomInfo?.news_info?.content,
+        status: roomInfo?.live_status,
         enabled: data.enabled ?? true,
       })
       .returning()
@@ -110,14 +113,14 @@ export abstract class RoomService {
     await db
       .update(schema.rooms)
       .set({
-        uid: roomInfo.uid,
-        uname: roomInfo.uname,
-        face: roomInfo.face,
-        shortRoomId: roomInfo.short_id,
-        medalName: roomInfo.medal_info?.medal_name ?? '',
-        news: roomInfo.news_info?.content,
-        status: roomInfo.live_status,
-        roomId: roomInfo.room_id,
+        uid: roomInfo?.uid,
+        uname: roomInfo?.uname,
+        face: roomInfo?.face,
+        shortRoomId: roomInfo?.short_id,
+        medalName: roomInfo?.medal_info?.medal_name ?? '',
+        news: roomInfo?.news_info?.content,
+        status: roomInfo?.live_status,
+        roomId: roomInfo?.room_id,
       })
       .where(eq(schema.rooms.roomId, roomId));
   }
@@ -132,8 +135,8 @@ export abstract class RoomService {
 
       if (hasRoom) {
         roomIds.push(roomId);
-        continue
-      };
+        continue;
+      }
 
       const roomInfo = await fetchRoomInfo(roomId);
 
@@ -141,14 +144,14 @@ export abstract class RoomService {
         .insert(schema.rooms)
         .values({
           enabled: true,
-          roomId: roomInfo.room_id,
-          uid: roomInfo.uid,
-          uname: roomInfo.uname,
-          face: roomInfo.face,
-          shortRoomId: roomInfo.short_id,
-          medalName: roomInfo.medal_info?.medal_name ?? '',
-          news: roomInfo.news_info?.content,
-          status: roomInfo.live_status,
+          roomId,
+          uid: roomInfo?.uid,
+          uname: roomInfo?.uname,
+          face: roomInfo?.face,
+          shortRoomId: roomInfo?.short_id,
+          medalName: roomInfo?.medal_info?.medal_name ?? '',
+          news: roomInfo?.news_info?.content,
+          status: roomInfo?.live_status,
         })
         .onConflictDoNothing();
 

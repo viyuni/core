@@ -196,7 +196,7 @@ const SSRRoomInfoSchema = type({
  */
 export async function fetchRoomInfo(roomId: string | number) {
   const res = await ky
-    .get(`https://live.bilibili.com/${roomId}`, {
+    .get(`https://live.bilibili.com/blanc/${roomId}`, {
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -212,10 +212,9 @@ export async function fetchRoomInfo(roomId: string | number) {
     .replace(/;?$/, '') // 去掉末尾的分号
     .trim();
 
-  const data = SSRRoomInfoSchema(JSON.parse(jsonStr ?? ''));
-  if (data instanceof type.errors) {
-    throw new Error(data.summary);
-  }
+  const data = SSRRoomInfoSchema(jsonStr ? JSON.parse(jsonStr) : {});
+
+  if (data instanceof type.errors) return;
 
   return {
     ...data.roomInitRes.data,
