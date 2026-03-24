@@ -6,19 +6,12 @@
     ".": "./src/index.ts",
     "./vue": "./src/vue.ts"
   },
-  "scripts": {
-    "dev": "bun ./src/index.ts"
-  },
-  "dependencies": {
+  "peerDependencies": {
     "@elysiajs/eden": "^1.4.8",
     "@viyuni/bevent-relay": "workspace:*",
-    "@viyuni/event-types": "workspace:*"
-  },
-  "devDependencies": {
+    "@viyuni/event-types": "workspace:*",
+    "typescript": "^5",
     "vite-plus": "catalog:",
     "vue": "^3.5.30"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
   }
 }

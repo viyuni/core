@@ -16,6 +16,7 @@
     "tools/*",
     "!.context/*"
   ],
+  "type": "module",
   "scripts": {
     "fmt": "vp fmt",
     "fmt:check": "vp fmt --check",

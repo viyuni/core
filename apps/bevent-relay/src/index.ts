@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { startMigrate } from './db/migrate';
 import { ListenerManager } from './modules/listener';
 import { RoomService } from './modules/room';
 import { SchedulerService } from './modules/scheduler';
@@ -6,7 +7,7 @@ import { ShutdownService } from './modules/shutdown';
 import { app } from './server';
 
 async function bootstrap() {
-  // await startMigrate();
+  await startMigrate();
 
   ShutdownService.register(() => ListenerManager.stopAll());
   ShutdownService.setup();

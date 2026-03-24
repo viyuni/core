@@ -8,3 +8,4 @@ export * from './switch';
 export * from './textarea';
 export * from './icons';
 export * from './fluid-cursor';
+export * from './json-form';

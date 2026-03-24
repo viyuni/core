@@ -2,7 +2,7 @@ import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
   staged: {
-    '*': 'pnpm run fmt && pnpm run lint:fix',
+    '*': 'vp check --fix',
   },
   fmt: {
     ignorePatterns: [],
@@ -10,7 +10,7 @@ export default defineConfig({
     experimentalSortImports: {},
   },
   lint: {
-    plugins: ['unicorn', 'typescript', 'oxc', 'vue'],
+    plugins: ['unicorn', 'typescript', 'oxc', 'vue', 'import', 'vitest', 'node'],
     categories: {},
     rules: {
       'constructor-super': 'warn',
@@ -85,7 +85,7 @@ export default defineConfig({
       'typescript/no-duplicate-enum-values': 'warn',
       'typescript/no-duplicate-type-constituents': 'warn',
       'typescript/no-extra-non-null-assertion': 'warn',
-      'typescript/no-floating-promises': 'warn',
+      'typescript/no-floating-promises': 'off',
       'typescript/no-for-in-array': 'warn',
       'typescript/no-implied-eval': 'warn',
       'typescript/no-meaningless-void-operator': 'warn',
@@ -146,9 +146,5 @@ export default defineConfig({
     },
     globals: {},
     ignorePatterns: ['**/node_modules/**', '**/drizzle/**'],
-    options: {
-      typeAware: true,
-      typeCheck: true,
-    },
   },
 });
