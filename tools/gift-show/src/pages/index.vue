@@ -6,10 +6,11 @@ import { createLiveChatScroller, createLiveChatScrollerVapor } from '@viyuni/ui'
 import { type } from 'arktype';
 import { useTemplateRef } from 'vue';
 
+import Logger from '@/components/Logger.vue';
+
 import { useBeventClient } from '../../../../packages/bevent-client/src/vue';
 import SpeedControlPanel from '../components/SpeedControlPanel.vue';
 import { useEventTimers } from '../composables/useEventTimers';
-import Logger from '@/components/Logger.vue';
 
 const { query, isValid, errors } = useValidatedQuery(
   type({
@@ -19,7 +20,9 @@ const { query, isValid, errors } = useValidatedQuery(
   }),
 );
 
+
 const logger = useTemplateRef('logger');
+
 
 // 使用事件定时器 composable
 const { updateGift1Speed, updateGift2Speed, updateGuardSpeed, pause, resume } = useEventTimers({

@@ -7,7 +7,7 @@
     "./vue": "./src/vue.ts"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types ./src/index.ts"
+    "dev": "bun ./src/index.ts"
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.8",
@@ -15,7 +15,7 @@
     "@viyuni/event-types": "workspace:*"
   },
   "devDependencies": {
-    "tsdown": "^0.21.4",
+    "vite-plus": "catalog:",
     "vue": "^3.5.30"
   },
   "peerDependencies": {

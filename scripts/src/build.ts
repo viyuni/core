@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { build } from 'vite';
+import { build } from 'vite-plus';
 
 import { findViteConfig } from './utils';
 

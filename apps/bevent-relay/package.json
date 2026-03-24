@@ -6,10 +6,10 @@
     "./schemas": "./src/schemas.ts"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types ./src/index.ts",
-    "dev:watch": "node --watch --experimental-strip-types ./src/index.ts",
+    "dev": "bun ./src/index.ts",
+    "dev:watch": "bun --watch ./src/index.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "node --experimental-strip-types ./src/db/migrate.ts",
+    "db:migrate": "bun ./src/db/migrate.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {

@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import chalk from 'chalk';
 import connect from 'connect';
-import { createServer, type ViteDevServer } from 'vite';
+import { createServer, type ViteDevServer } from 'vite-plus';
 
 import { findViteConfig } from './utils';
 

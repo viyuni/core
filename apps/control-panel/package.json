@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vp dev",
     "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "build-only": "vite build",
+    "preview": "vp preview",
+    "build-only": "vp build",
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
@@ -18,8 +18,8 @@
     "@visual-json/vue": "^0.3.1",
     "@viyuni/bevent-relay": "workspace:*",
     "@viyuni/event-types": "workspace:*",
-    "@viyuni/ui": "workspace:*",
     "@viyuni/shared": "workspace:*",
+    "@viyuni/ui": "workspace:*",
     "@vueuse/core": "^14.2.1",
     "elysia": "^1.4.28",
     "lucide-vue-next": "^0.577.0",
@@ -39,8 +39,9 @@
     "shiki": "^4.0.2",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.9.3",
-    "vite": "^8.0.1",
+    "vite": "catalog:",
     "vite-plugin-vue-devtools": "^8.1.0",
+    "vite-plus": "catalog:",
     "vue-tsc": "^3.2.6"
   },
   "overrides": {

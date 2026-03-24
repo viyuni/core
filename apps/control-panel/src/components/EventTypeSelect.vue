@@ -4,6 +4,7 @@ import { Select } from '@viyuni/ui';
 
 const value = defineModel<ViyuniEventType | null>('value');
 
+
 const options = [
   {
     value: null,

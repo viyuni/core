@@ -26,6 +26,7 @@ interface Props {
   blur?: number; // 毛玻璃模糊度 (px)
 }
 
+
 const props = withDefaults(defineProps<Props>(), {
   height: 60,
   skewWidth: 30,
@@ -33,8 +34,10 @@ const props = withDefaults(defineProps<Props>(), {
   blur: 10,
 });
 
+
 // 生成唯一 ID，防止页面有多个组件时 SVG ID 冲突
 const clipId = `clip-skew-${Math.random().toString(36).slice(2, 9)}`;
+
 
 const cssVars = computed(() => ({
   '--card-height': `${props.height}px`,

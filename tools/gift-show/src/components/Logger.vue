@@ -1,20 +1,24 @@
 <script setup lang="ts" vapor>
+import { useBeventClient } from '@viyuni/bevent-client/vue';
 import { ViyuniEventType, type Gift, type Guard, type ViyuniEvent } from '@viyuni/event-types';
 import { createLiveChatScroller, createLiveChatScrollerVapor } from '@viyuni/ui';
 import { useTemplateRef } from 'vue';
-import { useBeventClient } from '@viyuni/bevent-client/vue';
+
 import GiftLogger from './GiftLogger.vue';
 import GuardLogger from './GuardLogger.vue';
 
 const liveChat = useTemplateRef('liveChat');
 const LiveChatScroller = createLiveChatScrollerVapor<ViyuniEvent>();
 
+
 function handleGuardEvent(event: Guard) {
   liveChat.value?.push(event);
 }
 
+
 function handleGiftEvent(event: Gift) {
   console.log(event);
+
 
   liveChat.value?.patch(
     (item) => {
@@ -34,6 +38,7 @@ function handleGiftEvent(event: Gift) {
   );
 }
 
+
 useBeventClient({
   domain: 'localhost:3600',
   token: 'N44SSEHWXLKD9I1L',
@@ -50,6 +55,7 @@ useBeventClient({
     }
   },
 });
+
 
 defineExpose({
   handleGiftEvent,

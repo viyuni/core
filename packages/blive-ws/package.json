@@ -6,8 +6,8 @@
     "./types": "./src/types/index.ts"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types ./src/index.ts",
-    "dev:watch": "node --watch --experimental-strip-types ./src/index.ts"
+    "dev": "bun ./src/index.ts",
+    "dev:watch": "bun --watch ./src/index.ts"
   },
   "dependencies": {
     "@viyuni/event-types": "workspace:*",

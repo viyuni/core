@@ -8,6 +8,7 @@ defineProps<{
   offset?: number;
 }>();
 
+
 const emit = defineEmits<{
   prevPage: [];
   nextPage: [];
@@ -15,9 +16,11 @@ const emit = defineEmits<{
   'update:offset': [value: number];
 }>();
 
+
 const handleLimitChange = useDebounceFn((value: number) => {
   emit('update:limit', value);
 }, 300);
+
 
 const handleOffsetChange = useDebounceFn((value: number) => {
   emit('update:offset', value);

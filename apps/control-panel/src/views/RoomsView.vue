@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RoomClientStatus, type Room, type RoomWithClient } from '@viyuni/bevent-relay/types';
+import { toProxyUrl } from '@viyuni/shared';
 import { Modal } from '@viyuni/ui';
 import {
   Play,
@@ -14,7 +15,6 @@ import {
 import { ref } from 'vue';
 
 import { useRooms } from '../composables/useRooms';
-import { toProxyUrl } from '@viyuni/shared';
 
 const {
   rooms,
@@ -29,10 +29,12 @@ const {
   refetch,
 } = useRooms();
 
+
 const isAdding = ref(false);
 const formData = ref({
   roomId: 0,
 });
+
 
 const confirmModal = ref({
   isOpen: false,
@@ -41,10 +43,12 @@ const confirmModal = ref({
   action: null as (() => Promise<void>) | null,
 });
 
+
 function openAddModal() {
   formData.value = { roomId: 0 };
   isAdding.value = true;
 }
+
 
 async function handleSave() {
   try {
@@ -54,6 +58,7 @@ async function handleSave() {
     console.error('Failed to add room:', err);
   }
 }
+
 
 function confirmDelete(roomId: number) {
   confirmModal.value = {
@@ -70,6 +75,7 @@ function confirmDelete(roomId: number) {
   };
 }
 
+
 function confirmStop(roomId: number) {
   confirmModal.value = {
     isOpen: true,
@@ -85,6 +91,7 @@ function confirmStop(roomId: number) {
   };
 }
 
+
 async function executeConfirm() {
   if (confirmModal.value.action) {
     await confirmModal.value.action();
@@ -92,9 +99,11 @@ async function executeConfirm() {
   confirmModal.value.isOpen = false;
 }
 
+
 async function handleDelete(roomId: number) {
   confirmDelete(roomId);
 }
+
 
 async function handleStart(roomId: number) {
   try {
@@ -104,10 +113,12 @@ async function handleStart(roomId: number) {
   }
 }
 
+
 async function handleStop(roomId: number) {
   // Now using confirmStop
   confirmStop(roomId);
 }
+
 
 async function handleRefreshInfo(roomId: number) {
   try {
@@ -116,6 +127,7 @@ async function handleRefreshInfo(roomId: number) {
     console.error('Failed to refresh room info:', err);
   }
 }
+
 
 async function toggleEnabled(room: any, e: Event) {
   const target = e.target as HTMLInputElement;
@@ -127,14 +139,17 @@ async function toggleEnabled(room: any, e: Event) {
   }
 }
 
+
 const canStart = (room: RoomWithClient) =>
   !room.enabled ||
   room.clientStatus === RoomClientStatus.Connected ||
   room.clientStatus === RoomClientStatus.Reconnecting ||
   room.clientStatus === RoomClientStatus.Connecting;
 
+
 const canStop = (room: RoomWithClient) =>
   !room.enabled || room.clientStatus == RoomClientStatus.Stopped;
+
 
 const clientStatusStyle = {
   [RoomClientStatus.Connected]: 'badge-success',

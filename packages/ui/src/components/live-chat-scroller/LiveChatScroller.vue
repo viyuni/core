@@ -17,11 +17,15 @@ import type { LiveChatScrollerProps, LiveChatScrollerSlots } from './types';
 
 const props = withDefaults(defineProps<LiveChatScrollerProps<T>>(), defaultValues);
 
+
 defineSlots<LiveChatScrollerSlots<T>>();
+
 
 const wrapperRef = useTemplateRef('wrapperRef');
 
+
 const { push, patch, clear, getKey, rendererList } = useLiveChatScroller<T>(wrapperRef, props);
+
 
 defineExpose({ push, patch, clear });
 </script>

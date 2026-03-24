@@ -1,13 +1,13 @@
 {
   "name": "@viyuni/image-proxy",
   "type": "module",
+  "imports": {
+    "#*": "./*"
+  },
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
     "preview": "nitro preview"
-  },
-  "imports": {
-    "#*": "./*"
   },
   "devDependencies": {
     "nitro": "latest"

@@ -6,6 +6,7 @@ import Logo from './Logo.vue';
 
 const route = useRoute();
 
+
 defineEmits<{
   setting: [];
 }>();

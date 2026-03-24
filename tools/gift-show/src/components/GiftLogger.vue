@@ -23,8 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import SkewCard from './SkewCard.vue';
 import { toProxyUrl } from '@viyuni/shared';
+
+import SkewCard from './SkewCard.vue';
 
 defineProps<{ data: any; color?: string }>();
 </script>
