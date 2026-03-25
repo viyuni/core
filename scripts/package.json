@@ -7,10 +7,11 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "dev": "bun ./src/dev.ts",
-    "build": "bun ./src/build.ts"
+    "dev": "rdno ./src/dev.ts",
+    "build": "rdno ./src/build.ts"
   },
   "devDependencies": {
+    "@byc/rdno": "0.0.1-beta.1",
     "@tsconfig/node24": "^24.0.4",
     "@types/connect": "^3.4.38",
     "@types/express": "^5.0.6",

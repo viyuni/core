@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import { fileURLToPath } from 'bun';
+import { fileURLToPath } from 'node:url';
+
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 
 import { db } from './index';
