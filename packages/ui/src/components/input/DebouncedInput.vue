@@ -11,9 +11,7 @@ const props = withDefaults(defineProps<InputProps & { debounce?: number }>(), {
   class: '',
 });
 
-
 const modelValue = defineModel<string>({ default: '' });
-
 
 const handleInput = useDebounceFn((event: Event) => {
   const value = (event.target as HTMLInputElement).value;

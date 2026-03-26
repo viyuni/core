@@ -9,19 +9,15 @@ const props = defineProps<{
   data: any;
 }>();
 
-
 const emit = defineEmits<{
   close: [];
 }>();
 
-
 const { copy } = useClipboard();
-
 
 function copyObject(obj: unknown) {
   copy(JSON.stringify(obj));
 }
-
 
 function handleClose() {
   emit('close');

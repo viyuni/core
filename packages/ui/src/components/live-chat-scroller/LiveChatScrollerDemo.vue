@@ -63,21 +63,16 @@ interface GiftMessage extends BaseMessage {
   count: number;
 }
 
-
 type StreamMessage = ChatMessage | GiftMessage;
 
-
 const LiveChatScroller = createLiveChatScroller<StreamMessage>();
-
 
 // ================= 组件与状态 =================
 const messageLayerRef = useTemplateRef('messageLayerRef');
 
-
 // 用来保存最近发出的消息 ID，方便我们后续模拟随机打补丁
 const recentChatIds: string[] = [];
 const timers: ReturnType<typeof setInterval>[] = [];
-
 
 // ================= 模拟推流与打补丁 =================
 onMounted(() => {
@@ -152,16 +147,13 @@ onMounted(() => {
   timers.push(chatTimer, giftTimer, likeTimer, censorTimer);
 });
 
-
 onBeforeUnmount(() => {
   timers.forEach(clearInterval);
 });
 
-
 function stop() {
   timers.forEach(clearInterval);
 }
-
 
 // 手动清屏
 const clearMessages = () => {

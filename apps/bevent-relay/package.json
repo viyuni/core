@@ -13,28 +13,27 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@elysiajs/bearer": "^1.4.3",
-    "@elysiajs/cors": "^1.4.1",
-    "@elysiajs/node": "^1.4.5",
+    "@elysiajs/bearer": "catalog:",
+    "@elysiajs/cors": "catalog:",
+    "@elysiajs/node": "catalog:",
     "@viyuni/blive-ws": "workspace:*",
-    "@viyuni/cookie-sync-client": "^0.0.3",
+    "@viyuni/cookie-sync-client": "catalog:",
     "@viyuni/event-types": "workspace:*",
     "@viyuni/shared": "workspace:*",
-    "arkenv": "^0.11.0",
-    "arktype": "^2.2.0",
-    "croner": "^9.1.0",
-    "dotenv": "^17.3.1",
-    "drizzle-arktype": "^0.1.3",
-    "drizzle-orm": "^0.45.1",
-    "elysia": "^1.4.28",
-    "pg": "^8.20.0",
-    "rolldown": "1.0.0-rc.10"
+    "arkenv": "catalog:",
+    "arktype": "catalog:",
+    "croner": "catalog:",
+    "dotenv": "catalog:",
+    "drizzle-arktype": "catalog:",
+    "drizzle-orm": "catalog:",
+    "elysia": "catalog:",
+    "pg": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^25.5.0",
-    "@types/pg": "^8.20.0",
-    "drizzle-kit": "^0.31.10",
-    "tsx": "^4.21.0"
+    "@types/node": "catalog:",
+    "@types/pg": "catalog:",
+    "drizzle-kit": "catalog:",
+    "tsx": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -10,26 +10,22 @@
     "./theme.css": "./src/theme.css"
   },
   "dependencies": {
-    "arktype": "^2.2.0",
-    "zod": "^4.3.6"
+    "arktype": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "@json-render/core": "^0.14.1",
     "@json-render/vue": "^0.14.1",
     "@standard-schema/spec": "^1.1.0",
-    "@tailwindcss/vite": "^4.2.2",
     "@viyuni/event-types": "workspace:*",
     "@viyuni/shared": "workspace:*",
-    "@vue/tsconfig": "^0.9.0",
+    "@vue/tsconfig": "catalog:",
     "@vueuse/core": "^14.2.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.5.19",
-    "gsap": "^3.14.2",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5.9.3",
-    "vite": "catalog:",
-    "vite-plus": "catalog:",
-    "vue": ">=v3.6.0-beta.8"
+    "typescript": "catalog:",
+    "vue": "^3.6.0-0"
   }
 }

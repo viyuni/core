@@ -10,9 +10,7 @@ const props = withDefaults(
   },
 );
 
-
 const modelValue = defineModel<number | null>({ default: null });
-
 
 const handleInput = (event: Event) => {
   const value = (event.target as HTMLInputElement).value;

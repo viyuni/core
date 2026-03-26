@@ -10,6 +10,6 @@
     "preview": "nitro preview"
   },
   "devDependencies": {
-    "nitro": "latest"
+    "nitro": "catalog:"
   }
 }

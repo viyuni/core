@@ -2252,13 +2252,17 @@ function ni(e, t, n) {
     i = t[n];
   return n === `style` && y(r) && y(i) ? !Ee(r, i) : r !== i;
 }
-function ri({ vnode: e, parent: t }, n) {
+function ri({ vnode: e, parent: t, suspense: n }, r) {
   for (; t && !t.vapor; ) {
-    let r = t.subTree;
-    if ((r.suspense && r.suspense.activeBranch === e && (r.el = e.el), r === e))
-      (((e = t.vnode).el = n), (t = t.parent));
+    let n = t.subTree;
+    if (
+      (n.suspense && n.suspense.activeBranch === e && ((n.suspense.vnode.el = n.el = r), (e = n)),
+      n === e)
+    )
+      (((e = t.vnode).el = r), (t = t.parent));
     else break;
   }
+  n && n.activeBranch === e && (n.vnode.el = r);
 }
 var ii = {},
   ai = () => Object.create(ii),
@@ -2565,7 +2569,10 @@ function Di(e, i) {
         ((f = m && m.onVnodeMounted) || _) &&
           V(
             () => {
-              (f && fa(f, r, e), _ && z(e, null, r, `mounted`));
+              try {
+                (f && fa(f, r, e), _ && z(e, null, r, `mounted`));
+              } finally {
+              }
             },
             void 0,
             i,
@@ -2991,6 +2998,7 @@ function Di(e, i) {
         patchFlag: d,
         dirs: f,
         cacheIndex: p,
+        memo: m,
       } = e;
       if ((d === -2 && (i = !1), s != null)) {
         let t = k();
@@ -3000,10 +3008,10 @@ function Di(e, i) {
         Li(e.type) ? Ii(t, e).deactivate(e, t.ctx.getStorageContainer()) : t.ctx.deactivate(e);
         return;
       }
-      let m = u & 1 && f,
-        h = !Qn(e),
-        g;
-      if ((h && (g = o && o.onVnodeBeforeUnmount) && fa(g, t, e), u & 6))
+      let h = u & 1 && f,
+        g = !Qn(e),
+        _;
+      if ((g && (_ = o && o.onVnodeBeforeUnmount) && fa(_, t, e), u & 6))
         if (Li(a)) {
           (f && z(e, null, t, `beforeUnmount`),
             Ii(t, e).unmount(e, r),
@@ -3016,7 +3024,7 @@ function Di(e, i) {
           return;
         }
         if (
-          (m && z(e, null, t, `beforeUnmount`),
+          (h && z(e, null, t, `beforeUnmount`),
           u & 64
             ? e.type.remove(e, t, n, we, r)
             : l && !l.hasOnce && (a !== H || (d > 0 && d & 64))
@@ -3029,10 +3037,11 @@ function Di(e, i) {
         }
         r && ve(e);
       }
-      ((h && (g = o && o.onVnodeUnmounted)) || m) &&
+      let v = m != null && p == null;
+      ((g && (_ = o && o.onVnodeUnmounted)) || h || v) &&
         V(
           () => {
-            (g && fa(g, t, e), m && z(e, null, t, `unmounted`));
+            (_ && fa(_, t, e), h && z(e, null, t, `unmounted`), v && (e.el = null));
           },
           void 0,
           n,
@@ -3374,7 +3383,9 @@ function da(...e) {
       else if (a(e)) {
         let n = t[e],
           i = r[e];
-        i && n !== i && !(f(n) && n.includes(i)) && (t[e] = n ? [].concat(n, i) : i);
+        i && n !== i && !(f(n) && n.includes(i))
+          ? (t[e] = n ? [].concat(n, i) : i)
+          : i == null && n == null && !s(e) && (t[e] = i);
       } else e !== `` && (t[e] = r[e]);
   }
   return t;
@@ -3598,7 +3609,7 @@ function Na(e, t, n) {
     Xi(1);
   }
 }
-var Pa = `3.6.0-beta.8`,
+var Pa = `3.6.0-beta.9`,
   Fa = void 0,
   Ia = typeof window < `u` && window.trustedTypes;
 if (Ia)
@@ -4075,7 +4086,7 @@ function ws(e) {
   if (!e)
     if (ko) {
       let t = document.querySelector(`base`);
-      ((e = (t && t.getAttribute(`href`)) || `/`), (e = e.replace(/^\w+:\/\/[^/]+/, ``)));
+      ((e = (t && t.getAttribute(`href`)) || `/`), (e = e.replace(/^\w+:\/\/[^\/]+/, ``)));
     } else e = `/`;
   return (e[0] !== `/` && e[0] !== `#` && (e = `/` + e), ds(e));
 }
@@ -5333,19 +5344,19 @@ var Oc = `modulepreload`,
   Mc = Dc({
     history: Js(),
     routes: [
-      { path: `/`, name: `/`, component: () => jc(() => import(`./pages-Cyn2qBjx.js`), []) },
+      { path: `/`, name: `/`, component: () => jc(() => import(`./pages-gTOKj2j5.js`), []) },
       {
         path: `/studio`,
         children: [
           {
             path: ``,
             name: `/studio/`,
-            component: () => jc(() => import(`./studio-BHs1K0HF.js`), []),
+            component: () => jc(() => import(`./studio-D9M3Pslo.js`), []),
           },
           {
             path: `login`,
             name: `/studio/login`,
-            component: () => jc(() => import(`./login-DLCFw0zl.js`), []),
+            component: () => jc(() => import(`./login-k4gmdXNu.js`), []),
           },
         ],
       },

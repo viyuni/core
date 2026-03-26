@@ -10,25 +10,20 @@ const emit = defineEmits<{
   resume: [];
 }>();
 
-
 const gift1Speed = useLocalStorage('gift1-speed', 200);
 const gift2Speed = useLocalStorage('gift2-speed', 200);
 const guardSpeed = useLocalStorage('guard-speed', 200);
-
 
 watch(gift1Speed, (v) => emit('update:gift1Speed', v));
 watch(gift2Speed, (v) => emit('update:gift2Speed', v));
 watch(guardSpeed, (v) => emit('update:guardSpeed', v));
 
-
 const isOpen = ref(true);
 const presetSpeeds = [50, 100, 200, 500, 1000];
-
 
 function pauseAll() {
   emit('pause');
 }
-
 
 function resumeAll() {
   emit('resume');

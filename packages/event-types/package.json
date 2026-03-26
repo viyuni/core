@@ -10,7 +10,6 @@
   },
   "peerDependencies": {
     "arktype": "^2.2.0",
-    "blive-message-listener": "^0.5.3",
-    "typescript": "^5.9.3"
+    "typescript": "catalog:"
   }
 }

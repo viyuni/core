@@ -402,7 +402,7 @@ var BufferTokenizer = class extends AbstractTokenizer {
     super(options);
     this.uint8Array = uint8Array;
     this.fileInfo = {
-      ...options?.fileInfo,
+      ...(options?.fileInfo ?? {}),
       size: uint8Array.length,
     };
   }
@@ -455,7 +455,7 @@ var BlobTokenizer = class extends AbstractTokenizer {
     super(options);
     this.blob = blob;
     this.fileInfo = {
-      ...options?.fileInfo,
+      ...(options?.fileInfo ?? {}),
       size: blob.size,
       mimeType: blob.type,
     };

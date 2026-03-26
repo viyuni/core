@@ -1,4 +1,4 @@
-import { a as e, i as t, t as n } from './index-AFw1p-0Y.js';
+import { a as e, i as t, t as n } from './index-CrFumm45.js';
 var r = {};
 function i(n, r) {
   return (e(), t(`h1`, null, `Studio Login`));

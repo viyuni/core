@@ -12,7 +12,6 @@ const props = withDefaults(
   },
 );
 
-
 const modelValue = defineModel<boolean>({ default: false });
 </script>
 

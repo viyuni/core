@@ -8,7 +8,6 @@ const props = withDefaults(defineProps<InputProps>(), {
   class: '',
 });
 
-
 const modelValue = defineModel<string | number>({ default: '' });
 </script>
 

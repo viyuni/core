@@ -5,7 +5,6 @@ defineProps<{
   cmd?: string | null;
 }>();
 
-
 const emit = defineEmits<{
   'update:cmd': [value: string];
 }>();

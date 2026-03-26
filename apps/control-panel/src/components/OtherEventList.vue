@@ -10,20 +10,16 @@ defineProps<{
   events: OtherEvent[];
 }>();
 
-
 const selectedData = ref<OtherEvent['raw'] | null>(null);
 const isModalOpen = ref(false);
-
 
 const openModal = (data: OtherEvent['raw']) => {
   selectedData.value = data;
   isModalOpen.value = true;
 };
 
-
 const closeModal = () => {
   isModalOpen.value = false;
-
 
   setTimeout(() => {
     selectedData.value = null;

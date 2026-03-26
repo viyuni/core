@@ -8,7 +8,6 @@ import { useTemplateRef } from 'vue';
 const liveChatScrollerRef = useTemplateRef('liveChatScrollerRef');
 const LiveChatScroller = createLiveChatScrollerVapor<ViyuniEvent>();
 
-
 useBeventClient({
   domain: 'localhost:3600',
   token: 'LVFXZF5Q99I9WSBP',

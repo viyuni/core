@@ -7,7 +7,7 @@ import vueRouter from 'vue-router/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [nitro(), vueRouter(), vue(), tailwindcss()],
+  plugins: [nitro(), vueRouter(), vue(), tailwindcss(), vueDevTools()],
   resolve: {
     tsconfigPaths: true,
   },

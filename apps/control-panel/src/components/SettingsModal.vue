@@ -6,18 +6,14 @@ import { useAuth } from '../composables/useAuth';
 
 const { isOpen } = defineProps<{ isOpen: boolean }>();
 
-
 const emit = defineEmits<{
   close: [];
 }>();
 
-
 const { baseURL, token, setAuth } = useAuth();
-
 
 const localBaseURL = ref(baseURL.value ?? '');
 const localToken = ref(token.value ?? '');
-
 
 watch(
   () => isOpen,
@@ -29,12 +25,10 @@ watch(
   },
 );
 
-
 function handleSave() {
   setAuth(localBaseURL.value, localToken.value || null);
   emit('close');
 }
-
 
 function handleClose() {
   emit('close');

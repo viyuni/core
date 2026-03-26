@@ -10,15 +10,12 @@ import GuardLogger from './GuardLogger.vue';
 const liveChat = useTemplateRef('liveChat');
 const LiveChatScroller = createLiveChatScrollerVapor<ViyuniEvent>();
 
-
 function handleGuardEvent(event: Guard) {
   liveChat.value?.push(event);
 }
 
-
 function handleGiftEvent(event: Gift) {
   console.log(event);
-
 
   liveChat.value?.patch(
     (item) => {
@@ -38,7 +35,6 @@ function handleGiftEvent(event: Gift) {
   );
 }
 
-
 useBeventClient({
   domain: 'localhost:3600',
   token: 'N44SSEHWXLKD9I1L',
@@ -55,7 +51,6 @@ useBeventClient({
     }
   },
 });
-
 
 defineExpose({
   handleGiftEvent,

@@ -2,7 +2,7 @@ import { r as HTTPResponse } from '../_libs/h3+rou3+srvx.mjs';
 //#region #nitro/virtual/renderer-template
 var rendererTemplate = () =>
   new HTTPResponse(
-    '<!doctype html>\n<html lang="">\n  <head>\n    <meta charset="UTF-8" />\n    <link rel="icon" href="https://assets.viyuni.top/viyuni.svg" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Song List - Viyuni</title>\n    <script type="module" crossorigin src="/assets/index-AFw1p-0Y.js"></script>\n    <link rel="stylesheet" crossorigin href="/assets/index-x4gjaMX1.css">\n  </head>\n  <body>\n    <div id="app"></div>\n  </body>\n</html>\n',
+    '<!doctype html>\n<html lang="">\n  <head>\n    <meta charset="UTF-8" />\n    <link rel="icon" href="https://assets.viyuni.top/viyuni.svg" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Song List - Viyuni</title>\n    <script type="module" crossorigin src="/assets/index-CrFumm45.js"><\/script>\n    <link rel="stylesheet" crossorigin href="/assets/index-x4gjaMX1.css">\n  </head>\n  <body>\n    <div id="app"></div>\n  </body>\n</html>\n',
     { headers: { 'content-type': 'text/html; charset=utf-8' } },
   );
 //#endregion

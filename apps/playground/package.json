@@ -12,20 +12,20 @@
     "@viyuni/bevent-client": "workspace:*",
     "@viyuni/event-types": "workspace:*",
     "@viyuni/ui": "workspace:*",
-    "@vueuse/core": "^14.2.1",
-    "vue": "beta"
+    "@vueuse/core": "catalog:",
+    "vue": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.2",
-    "@types/node": "^24.12.0",
-    "@vitejs/plugin-vue": "^6.0.5",
-    "@vue/tsconfig": "^0.9.0",
-    "daisyui": "^5.5.19",
-    "tailwindcss": "^4.2.2",
-    "typescript": "~5.9.3",
+    "@tailwindcss/vite": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "daisyui": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vue-tsc": "^3.2.6"
+    "vue-tsc": "catalog:"
   },
   "overrides": {
     "@vue/compat": "beta",

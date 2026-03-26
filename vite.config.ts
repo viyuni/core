@@ -145,6 +145,6 @@ export default defineConfig({
       builtin: true,
     },
     globals: {},
-    ignorePatterns: ['**/node_modules/**', '**/drizzle/**'],
+    ignorePatterns: ['**/node_modules/**', '**/drizzle/**', '**/dist/**', '**/.output/**'],
   },
 });

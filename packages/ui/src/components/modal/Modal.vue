@@ -5,20 +5,16 @@ const props = defineProps<{
   class?: string;
 }>();
 
-
 const isOpen = defineModel<boolean>('open', { default: false });
-
 
 const emit = defineEmits<{
   close: [];
 }>();
 
-
 function handleClose() {
   isOpen.value = false;
   emit('close');
 }
-
 
 function handleBackdropClick() {
   handleClose();

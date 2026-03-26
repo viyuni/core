@@ -20,9 +20,7 @@ const { query, isValid, errors } = useValidatedQuery(
   }),
 );
 
-
 const logger = useTemplateRef('logger');
-
 
 // 使用事件定时器 composable
 const { updateGift1Speed, updateGift2Speed, updateGuardSpeed, pause, resume } = useEventTimers({

@@ -11,7 +11,6 @@ interface ColorRGB {
   b: number;
 }
 
-
 interface Props {
   simResolution?: number;
   dyeResolution?: number;
@@ -30,7 +29,6 @@ interface Props {
   class?: HTMLAttributes['class'];
 }
 
-
 const props = withDefaults(defineProps<Props>(), {
   simResolution: 128,
   dyeResolution: 1440,
@@ -48,7 +46,6 @@ const props = withDefaults(defineProps<Props>(), {
   transparent: true,
 });
 
-
 interface Pointer {
   id: number;
   texcoordX: number;
@@ -61,7 +58,6 @@ interface Pointer {
   moved: boolean;
   color: ColorRGB;
 }
-
 
 function pointerPrototype(): Pointer {
   return {
@@ -78,9 +74,7 @@ function pointerPrototype(): Pointer {
   };
 }
 
-
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-
 
 onMounted(() => {
   const canvas = canvasRef.value;

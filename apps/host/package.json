@@ -11,41 +11,23 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "pinia": "^3.0.4",
-    "vue": "beta"
+    "pinia": "catalog:",
+    "vue": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.2",
-    "@tsconfig/node24": "^24.0.4",
-    "@types/node": "^24.12.0",
-    "@vitejs/plugin-vue": "^6.0.5",
+    "@tailwindcss/vite": "catalog:",
+    "@tsconfig/node24": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
     "@viyuni/ui": "workspace:*",
-    "@vue/tsconfig": "^0.8.1",
-    "daisyui": "^5.5.19",
-    "npm-run-all2": "^8.0.4",
-    "tailwindcss": "^4.2.2",
-    "typescript": "~5.9.3",
+    "@vue/tsconfig": "catalog:",
+    "daisyui": "catalog:",
+    "npm-run-all2": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-vue-devtools": "^8.1.0",
+    "vite-plugin-vue-devtools": "catalog:",
     "vite-plus": "catalog:",
-    "vue-tsc": "^3.2.6"
-  },
-  "overrides": {
-    "@vue/compat": "beta",
-    "@vue/compiler-core": "beta",
-    "@vue/compiler-dom": "beta",
-    "@vue/compiler-sfc": "beta",
-    "@vue/compiler-ssr": "beta",
-    "@vue/compiler-vapor": "beta",
-    "@vue/reactivity": "beta",
-    "@vue/runtime-core": "beta",
-    "@vue/runtime-dom": "beta",
-    "@vue/runtime-vapor": "beta",
-    "@vue/server-renderer": "beta",
-    "@vue/shared": "beta",
-    "vue": "beta"
-  },
-  "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "vue-tsc": "catalog:"
   }
 }

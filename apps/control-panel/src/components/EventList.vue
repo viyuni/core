@@ -10,16 +10,13 @@ defineProps<{
   events: Event[];
 }>();
 
-
 const selectedEvent = ref<any | null>(null);
 const isModalOpen = ref(false);
-
 
 const openModal = (event: any) => {
   selectedEvent.value = event;
   isModalOpen.value = true;
 };
-
 
 const closeModal = () => {
   isModalOpen.value = false;

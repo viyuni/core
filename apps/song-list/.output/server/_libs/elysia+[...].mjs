@@ -4232,7 +4232,7 @@ var ELYSIA_TRACE = Symbol('ElysiaTrace'),
 //#region ../../node_modules/.pnpm/exact-mirror@0.2.7_@sinclair+typebox@0.34.48/node_modules/exact-mirror/dist/index.mjs
 var Kind = Symbol.for('TypeBox.Kind');
 var Hint = Symbol.for('TypeBox.Hint');
-var isSpecialProperty = (name) => /( |-|\t|\n|\.|\[|\]|\{|\})/.test(name) || !isNaN(+name[0]);
+var isSpecialProperty = (name) => /(\ |-|\t|\n|\.|\[|\]|\{|\})/.test(name) || !isNaN(+name[0]);
 var joinProperty = (v1, v2, isOptional = false) => {
   if (typeof v2 === 'number') return `${v1}[${v2}]`;
   if (isSpecialProperty(v2)) return `${v1}${isOptional ? '?.' : ''}["${v2}"]`;
@@ -7948,13 +7948,13 @@ for(const [k,v] of c.request.headers.entries())c.headers[k]=v
                   development: !isProduction,
                   reusePort: !0,
                   idleTimeout: 30,
-                  ...app.config.serve,
-                  ...options,
+                  ...(app.config.serve || {}),
+                  ...(options || {}),
                   routes,
                   websocket: {
-                    ...app.config.websocket,
-                    ...websocket,
-                    ...options.websocket,
+                    ...(app.config.websocket || {}),
+                    ...(websocket || {}),
+                    ...(options.websocket || {}),
                   },
                   fetch: app.fetch,
                 }
@@ -7962,11 +7962,11 @@ for(const [k,v] of c.request.headers.entries())c.headers[k]=v
                   development: !isProduction,
                   reusePort: !0,
                   idleTimeout: 30,
-                  ...app.config.serve,
+                  ...(app.config.serve || {}),
                   routes,
                   websocket: {
-                    ...app.config.websocket,
-                    ...websocket,
+                    ...(app.config.websocket || {}),
+                    ...(websocket || {}),
                   },
                   port: options,
                   fetch: app.fetch,
@@ -9668,7 +9668,7 @@ var Elysia = class _Elysia {
             path,
             handler,
             mergeHook(hook, {
-              ...localHook,
+              ...(localHook || {}),
               error: localHook.error
                 ? Array.isArray(localHook.error)
                   ? [...(localHook.error ?? []), ...(sandbox.event.error ?? [])]
@@ -9810,7 +9810,7 @@ var Elysia = class _Elysia {
             path,
             handler,
             mergeHook(guardHook, {
-              ...localHook,
+              ...(localHook || {}),
               error: localHook.error
                 ? Array.isArray(localHook.error)
                   ? [...(localHook.error ?? []), ...(sandbox.event.error ?? [])]
@@ -9850,7 +9850,7 @@ var Elysia = class _Elysia {
                 path,
                 handler,
                 mergeHook(guardHook, {
-                  ...localHook,
+                  ...(localHook || {}),
                   error: localHook.error
                     ? Array.isArray(localHook.error)
                       ? [...(localHook.error ?? []), ...(sandbox.event.error ?? [])]
@@ -10695,7 +10695,7 @@ var Elysia = class _Elysia {
           }),
           typeof this.server?.reload == 'function' &&
             this.server.reload({
-              ...this.server,
+              ...(this.server || {}),
               fetch: this.fetch,
             }),
           this)

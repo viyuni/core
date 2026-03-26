@@ -16,7 +16,6 @@ const props = withDefaults(
   },
 );
 
-
 const modelValue = defineModel<string>({ default: '' });
 </script>
 

@@ -11,16 +11,16 @@
     "build": "rdno ./src/build.ts"
   },
   "devDependencies": {
-    "@byc/rdno": "0.0.1-beta.1",
-    "@tsconfig/node24": "^24.0.4",
-    "@types/connect": "^3.4.38",
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.5.0",
-    "chalk": "^5.6.2",
-    "connect": "^3.7.0",
-    "find-packages": "^10.0.4",
-    "tinyglobby": "^0.2.15",
-    "typescript": "~5.9.3",
+    "@byc/rdno": "catalog:",
+    "@tsconfig/node24": "catalog:",
+    "@types/connect": "catalog:",
+    "@types/express": "catalog:",
+    "@types/node": "catalog:",
+    "chalk": "catalog:",
+    "connect": "catalog:",
+    "find-packages": "catalog:",
+    "tinyglobby": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

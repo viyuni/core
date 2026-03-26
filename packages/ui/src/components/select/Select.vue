@@ -7,7 +7,6 @@ interface Option {
   disabled?: boolean;
 }
 
-
 const props = withDefaults(
   defineProps<{
     placeholder?: string;
@@ -21,7 +20,6 @@ const props = withDefaults(
     class: '',
   },
 );
-
 
 const modelValue = defineModel<string | null | undefined>();
 </script>

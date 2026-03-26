@@ -7,7 +7,6 @@ const props = withDefaults(defineProps<Omit<InputProps, 'type'>>(), {
   class: '',
 });
 
-
 const modelValue = defineModel<string>({ default: '' });
 </script>
 

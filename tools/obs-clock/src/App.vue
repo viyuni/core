@@ -4,7 +4,6 @@ import { type } from 'arktype';
 
 const ConfigSchema = type({ formatted: 'string?', fontSize: 'string.numeric.parse?' });
 
-
 const res = ConfigSchema(Object.fromEntries(new URLSearchParams(window.location.search).entries()));
 const formatted = useDateFormat(useNow(), 'HH:mm:ss');
 </script>
