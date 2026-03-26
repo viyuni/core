@@ -49,3 +49,4 @@ prod.db
 skills-lock.json
 
 /.context
+.output

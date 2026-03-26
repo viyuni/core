@@ -1,5 +1,8 @@
 {
   "extends": ["nitro/tsconfig"],
+  "compilerOptions": {
+    "rootDir": "."
+  },
   "files": [],
   "references": [
     {
