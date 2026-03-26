@@ -76,7 +76,6 @@ catalog:
   shiki: ^4.0.2
   tailwindcss: ^4.2.2
   tinyglobby: ^0.2.15
-  tsx: ^4.21.0
   typescript: ~5.9.3
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vite-plus: ^0.1.14

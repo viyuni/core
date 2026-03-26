@@ -32,8 +32,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/pg": "catalog:",
-    "drizzle-kit": "catalog:",
-    "tsx": "catalog:"
+    "drizzle-kit": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5"
