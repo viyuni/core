@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { RefreshCw } from '@lucide/vue';
 import type { Event } from '@viyuni/bevent-relay/types';
-import { RefreshCw } from 'lucide-vue-next';
 
 import EventTypeSelect from '@/components/EventTypeSelect.vue';
 

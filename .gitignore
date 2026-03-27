@@ -48,5 +48,6 @@ prod.db
 .trae
 skills-lock.json
 
-/.context
+.context
 .output
+.docs

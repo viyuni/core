@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@elysiajs/eden": "catalog:",
+    "@lucide/vue": "catalog:",
     "@pinia/colada": "catalog:",
     "@pinia/colada-plugin-auto-refetch": "catalog:",
     "@visual-json/core": "catalog:",
@@ -22,7 +23,6 @@
     "@viyuni/ui": "workspace:*",
     "@vueuse/core": "catalog:",
     "elysia": "catalog:",
-    "lucide-vue-next": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"

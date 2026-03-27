@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { RefreshCw } from '@lucide/vue';
 import type { OtherEvent } from '@viyuni/bevent-relay/types';
-import { RefreshCw } from 'lucide-vue-next';
 
 import FilterControls from '../components/FilterControls.vue';
 import OtherEventList from '../components/OtherEventList.vue';

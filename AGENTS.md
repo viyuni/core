@@ -86,3 +86,55 @@ For GitHub Actions, consider using [`voidzero-dev/setup-vp`](https://github.com/
 - [ ] Run `vp install` after pulling remote changes and before getting started.
 - [ ] Run `vp check` and `vp test` to validate changes.
 <!--VITE PLUS END-->
+
+<!--CADS START-->
+
+# 🛰️ Context-Aware Documentation System (CADS)
+
+## 1. 智能触发与感知 (Smart Triggering)
+
+当发生以下场景时，AI 必须自动启动 CADS 检索流程，严禁凭空猜测：
+
+- **故障排查**: 终端出现编译错误或运行时异常。
+- **功能实现**: 用户询问如何使用特定的组件、类名或 API。
+- **知识同步**: 发现代码现状与预训练模型知识存在版本差异。
+
+## 2. 混合依赖映射表 (Hybrid Dependency Mapping)
+
+需实时比对 `package.json`，根据命中关键字直接锁定检索源（无需二次跳转）。
+
+| 技术栈 (Tech Stack) | 检索源 (Local Path or Remote URL)                                   | 类型 | 核心依赖 (Context)      |
+| :------------------ | :------------------------------------------------------------------ | :--- | :---------------------- |
+| `nitro`, `server`   | `https://raw.githubusercontent.com/unjs/nitro/main/docs/1.index.md` | 远程 | `nitro`                 |
+| `daisyui`, `ui`     | `.docs\daisyui\packages\docs\src\routes\(routes)\docs`              | 本地 | `daisyui`               |
+| `elysia`, `bun`     | `.docs\elysia\docs`                                                 | 本地 | `elysia`                |
+| `lucide`, `icon`    | `.docs\lucide\docs`                                                 | 本地 | `lucide`, `@lucide/vue` |
+
+## 3. 动态检索指令 (Windows Optimized Execution)
+
+确定路径后，必须严格执行以下带引号包裹的指令：
+
+### A. 本地路径检索 (CMD/PowerShell)
+
+- **标准格式**: `findstr /s /n /i /c:"关键字" "目标路径\*.md"`
+- **避坑指南**:
+  1. 必须对整个路径加双引号：`"docs\my path\*.md"`。
+  2. 若关键字包含空格，必须使用 `/c:"key word"` 模式。
+  3. 在 PowerShell 中，建议配合 `Select-String` 作为备选：
+     `Get-ChildItem -Path "目标路径\*" -Include *.md,*.svelte -Recurse | Select-String "关键字"`
+
+### B. 远程 URL 检索
+
+直接读取远程 Raw 内容。若内容过大，仅采样关键字所在段落。
+
+## 4. 深度处理协议 (Processing)
+
+1. **区块锁定**: 优先提取 `` 标记内容。
+2. **环境对齐**: 对比 `package.json`，依赖缺失时必须提示安装。
+3. **输出溯源**: 回复结尾强制包含 `Ref: [Source] (Line: [No.])`。
+
+## 5. 健壮性约束 (Robustness)
+
+- **拒绝幻觉**: 若 `findstr` 命中数为 0，报告“知识库未涵盖”，并提供 `npm run docs:pull` 建议。
+- **路径转义**: 识别到路径中包含 `(` 或 `)` 时，AI 必须确保在 shell 执行时路径已被双引号完全包裹。
+<!--CADS END-->

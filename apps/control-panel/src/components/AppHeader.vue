@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Settings, Cable, Info, Home } from 'lucide-vue-next';
+import { Settings, Cable, Info, Home } from '@lucide/vue';
 import { useRoute } from 'vue-router';
 
 import Logo from './Logo.vue';

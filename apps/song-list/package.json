@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "catalog:",
+    "@viyuni/shared": "workspace:*",
     "@viyuni/ui": "workspace:*",
     "@vueuse/core": "catalog:",
     "daisyui": "catalog:",
     "elysia": "catalog:",
+    "motion-v": "^2.2.0",
     "nitro": "catalog:",
     "tailwindcss": "catalog:",
     "vue": "catalog:",

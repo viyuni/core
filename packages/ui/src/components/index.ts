@@ -9,3 +9,5 @@ export * from './textarea';
 export * from './icons';
 export * from './fluid-cursor';
 export * from './json-form';
+export * from './theme-switcher';
+export * from './back-to-top';

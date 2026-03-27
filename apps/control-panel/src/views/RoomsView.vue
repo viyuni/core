@@ -1,17 +1,8 @@
 <script setup lang="ts">
+import { Play, Square, Trash2, Plus, RefreshCw, CircleHelp, ExternalLink, User } from '@lucide/vue';
 import { RoomClientStatus, type Room, type RoomWithClient } from '@viyuni/bevent-relay/types';
 import { toProxyUrl } from '@viyuni/shared';
 import { Modal } from '@viyuni/ui';
-import {
-  Play,
-  Square,
-  Trash2,
-  Plus,
-  RefreshCw,
-  CircleHelp,
-  ExternalLink,
-  User,
-} from 'lucide-vue-next';
 import { ref } from 'vue';
 
 import { useRooms } from '../composables/useRooms';

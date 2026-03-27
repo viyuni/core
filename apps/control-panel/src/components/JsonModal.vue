@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { Copy } from '@lucide/vue';
 import { JsonEditor } from '@visual-json/vue';
 import { Modal } from '@viyuni/ui';
 import { useClipboard } from '@vueuse/core';
-import { Copy } from 'lucide-vue-next';
 
 const props = defineProps<{
   open: boolean;
