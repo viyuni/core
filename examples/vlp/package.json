@@ -1,5 +1,5 @@
 {
-  "name": "vlc-example",
+  "name": "@viyuni/example-vlp",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,13 +11,14 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "arktype": "catalog:",
     "vue": "^3.5.30"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.0",
     "@vitejs/plugin-vue": "^6.0.4",
-    "@viyuni/vlc-sdk": "workspace:",
+    "@viyuni/live-plugin-kit": "workspace:",
     "@vue/tsconfig": "^0.9.0",
     "npm-run-all2": "^8.0.4",
     "typescript": "~5.9.3",

@@ -1,6 +1,6 @@
 {
-  "name": "@viyuni/vlc-sdk",
-  "version": "0.0.0",
+  "name": "@viyuni/live-plugin-kit",
+  "version": "0.0.1",
   "description": "A starter for creating a TypeScript package.",
   "homepage": "https://github.com/author/library#readme",
   "bugs": {
@@ -18,7 +18,7 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.mjs",
-    "./config": "./dist/config.mjs",
+    "./vite": "./dist/vite.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

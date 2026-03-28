@@ -1,5 +1,5 @@
 {
-  "name": "@viyuni/bevent-client",
+  "name": "@viyuni/bevent-relay-client",
   "version": "0.0.1",
   "type": "module",
   "module": "src/index.ts",
@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@viyuni/bevent-relay": "workspace:*",
-    "@viyuni/event-types": "workspace:*"
+    "@viyuni/event-types": "workspace:*",
+    "nanoevents": "^9.1.0"
   },
   "devDependencies": {
     "@elysiajs/eden": "catalog:",

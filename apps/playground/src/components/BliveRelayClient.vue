@@ -1,83 +1,92 @@
 <script lang="ts" setup>
-import { useBeventClient } from '@viyuni/bevent-client/vue';
+import { createSharedBeventClient } from '@viyuni/bevent-relay-client';
 import type { ViyuniEvent } from '@viyuni/event-types';
 import { ViyuniEventType } from '@viyuni/event-types';
 import { createLiveChatScrollerVapor } from '@viyuni/ui';
-import { useTemplateRef } from 'vue';
+import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue';
 
 const liveChatScrollerRef = useTemplateRef('liveChatScrollerRef');
 const LiveChatScroller = createLiveChatScrollerVapor<ViyuniEvent>();
 
-useBeventClient({
+const client = createSharedBeventClient({
   domain: 'localhost:3600',
   token: 'LVFXZF5Q99I9WSBP',
   // roomId: 23369901,
   events: Object.values(ViyuniEventType),
-  onMessage({ data }) {
-    if (data.type === ViyuniEventType.LikesUpdate) {
-      liveChatScrollerRef.value?.patch(
-        (item) => {
-          if (item.type === ViyuniEventType.LikesUpdate && item.roomId === data.roomId) {
-            return {
-              ...item,
-              id: item.id,
-              likes: data.likes,
-            };
-          }
-        },
-        () => data,
-      );
-    } else if (data.type === ViyuniEventType.Gift) {
-      console.log(data);
-      liveChatScrollerRef.value?.patch(
-        (item) => {
-          if (
-            item.type === ViyuniEventType.Gift &&
-            item.roomId === data.roomId &&
-            item.uid === data.uid &&
-            item.giftId === data.giftId
-          ) {
-            return {
-              ...data,
-              id: item.id,
-            };
-          }
-        },
-        () => data,
-      );
-    } else if (data.type === ViyuniEventType.LikeClick) {
-      liveChatScrollerRef.value?.patch(
-        (item) => {
-          if (
-            item.type === ViyuniEventType.LikeClick &&
-            item.roomId === data.roomId &&
-            item.uid === data.uid
-          ) {
-            return {
-              ...item,
-              count: (item.count ?? 0) + 1,
-            };
-          }
-        },
-        () => data,
-      );
-    } else if (data.type === ViyuniEventType.EntryEffect) {
-      liveChatScrollerRef.value?.patch(
-        (item) => {
-          if (item.type === ViyuniEventType.EntryEffect && item.roomId === data.roomId) {
-            return {
-              ...item,
-              id: item.id,
-              uname: `${item.uname}, ${data.uname}`,
-            };
-          }
-        },
-        () => data,
-      );
-    } else {
-      liveChatScrollerRef.value?.push(data);
-    }
-  },
+});
+
+client.onMessage((data) => {
+  if (data.type === ViyuniEventType.LikesUpdate) {
+    liveChatScrollerRef.value?.patch(
+      (item) => {
+        if (item.type === ViyuniEventType.LikesUpdate && item.roomId === data.roomId) {
+          return {
+            ...item,
+            id: item.id,
+            likes: data.likes,
+          };
+        }
+      },
+      () => data,
+    );
+  } else if (data.type === ViyuniEventType.Gift) {
+    console.log(data);
+    liveChatScrollerRef.value?.patch(
+      (item) => {
+        if (
+          item.type === ViyuniEventType.Gift &&
+          item.roomId === data.roomId &&
+          item.uid === data.uid &&
+          item.giftId === data.giftId
+        ) {
+          return {
+            ...data,
+            id: item.id,
+          };
+        }
+      },
+      () => data,
+    );
+  } else if (data.type === ViyuniEventType.LikeClick) {
+    liveChatScrollerRef.value?.patch(
+      (item) => {
+        if (
+          item.type === ViyuniEventType.LikeClick &&
+          item.roomId === data.roomId &&
+          item.uid === data.uid
+        ) {
+          return {
+            ...item,
+            count: (item.count ?? 0) + 1,
+          };
+        }
+      },
+      () => data,
+    );
+  } else if (data.type === ViyuniEventType.EntryEffect) {
+    liveChatScrollerRef.value?.patch(
+      (item) => {
+        if (item.type === ViyuniEventType.EntryEffect && item.roomId === data.roomId) {
+          return {
+            ...item,
+            id: item.id,
+            uname: `${item.uname}, ${data.uname}`,
+          };
+        }
+      },
+      () => data,
+    );
+  } else {
+    liveChatScrollerRef.value?.push(data);
+  }
+});
+
+onMounted(() => {
+  client.start();
+});
+
+onBeforeUnmount(() => {
+  client.stop();
 });
 </script>
 

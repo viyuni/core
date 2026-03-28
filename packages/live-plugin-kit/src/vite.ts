@@ -11,28 +11,32 @@ export interface Options {
    */
   entry?: string;
   name: string;
+  description?: string;
+  author?: string;
+  version?: string;
 }
 
-export default (options?: Options): Plugin => {
-  const { entry = './src/index.ts', name: componentName = 'ViyuniLiveComponent' } = options ?? {};
+export default (options: Options): Plugin => {
+  const { entry = './src/index.ts', name } = options;
 
   const resolvedEntry = resolve(process.cwd(), entry);
 
   return {
-    name: 'vite-vlc-plugin',
+    name: 'vite:viyuni-live-plugin',
     enforce: 'pre',
     config: () => ({
       css: {
         postcss: {
           plugins: [
             prefixer({
-              prefix: `.vlc_${componentName}`,
+              prefix: `.vlp-${name.toLowerCase()}`,
               exclude: [/node_modules/],
             }),
           ],
         },
       },
       build: {
+        minify: false,
         lib: {
           entry: resolvedEntry,
           fileName: 'app',
@@ -51,7 +55,7 @@ export default (options?: Options): Plugin => {
     }),
     buildStart: async () => {
       console.log(
-        `[Viyuni VLC] 🚀 Using Spec v${packageJson.version} | Building ${componentName}...`,
+        `[Viyuni Live Plugin] 🚀 Using Spec v${packageJson.version} | Building ${name}...`,
       );
     },
     closeBundle: async () => {

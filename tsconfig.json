@@ -13,7 +13,7 @@
     { "path": "./packages/ui" },
     { "path": "./packages/event-types" },
     { "path": "./packages/blive-ws" },
-    { "path": "./packages/bevent-client" },
+    { "path": "./packages/bevent-relay-client" },
     { "path": "./packages/mock" }
   ]
 }

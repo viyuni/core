@@ -10,7 +10,7 @@ export default defineConfig({
     exports: {},
     entry: {
       index: 'src/index.ts',
-      config: 'src/config.ts',
+      vite: 'src/vite.ts',
     },
   },
   lint: {

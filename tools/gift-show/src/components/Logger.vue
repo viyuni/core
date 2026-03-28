@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { useBeventClient } from '@viyuni/bevent-client/vue';
+import { useBeventClient } from '@viyuni/bevent-relay-client/vue';
 import { ViyuniEventType, type Gift, type Guard, type ViyuniEvent } from '@viyuni/event-types';
 import { createLiveChatScroller, createLiveChatScrollerVapor } from '@viyuni/ui';
 import { useTemplateRef } from 'vue';

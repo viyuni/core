@@ -9,17 +9,19 @@
     "preview": "vp preview"
   },
   "dependencies": {
-    "@viyuni/bevent-client": "workspace:*",
+    "@viyuni/bevent-relay-client": "workspace:*",
     "@viyuni/event-types": "workspace:*",
     "@viyuni/ui": "workspace:*",
     "@vueuse/core": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {
+    "@csstools/postcss-oklab-function": "^5.0.2",
     "@tailwindcss/vite": "catalog:",
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/tsconfig": "catalog:",
+    "autoprefixer": "^10.4.27",
     "daisyui": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",

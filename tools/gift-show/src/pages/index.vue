@@ -8,7 +8,7 @@ import { useTemplateRef } from 'vue';
 
 import Logger from '@/components/Logger.vue';
 
-import { useBeventClient } from '../../../../packages/bevent-client/src/vue';
+import { useBeventClient } from '../../../../packages/bevent-relay-client/src/vue';
 import SpeedControlPanel from '../components/SpeedControlPanel.vue';
 import { useEventTimers } from '../composables/useEventTimers';
 

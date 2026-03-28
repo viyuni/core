@@ -40,11 +40,14 @@ export abstract class EventService {
   }
 
   static async insert(roomId: number, event: ViyuniEvent) {
-    return db.insert(schema.events).values({
-      eventId: event.id,
-      type: event.type,
-      roomId: roomId,
-      data: event,
-    });
+    return db
+      .insert(schema.events)
+      .values({
+        eventId: event.id,
+        type: event.type,
+        roomId: roomId,
+        data: event,
+      })
+      .onConflictDoNothing();
   }
 }

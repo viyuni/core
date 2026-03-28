@@ -124,9 +124,6 @@ export default defineConfig({
         components: {},
         attributes: {},
       },
-      next: {
-        rootDir: [],
-      },
       jsdoc: {
         ignorePrivate: false,
         ignoreInternal: false,
